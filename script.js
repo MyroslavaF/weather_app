@@ -156,13 +156,15 @@ function renderComponents(currentUnit) {
     currentCity.innerText= store.address;
     if (currentUnit === "C") {
         currentTemp.innerText = `${store.temp}°C`;
+        currentFeelsLike.innerText=`${store.feelslike}°`;
     } else {
         const tempFahrenheit = celsiusToFahrenheit(store.temp);
+        const feelsLikeFahrenheit =  celsiusToFahrenheit(store.feelslike);
         currentTemp.innerText = `${tempFahrenheit}°F`;
+        currentFeelsLike.innerText=`${feelsLikeFahrenheit}`;
     }
     currentSunrise.innerText=`${store.sunrise}`;
     currentSunset.innerText=`${store.sunset}`;
-    currentFeelsLike.innerText=`${store.feelslike}°`;
     currentDescription.innerText=`${store.description}`;
     currentWindSpeed.innerText=`${store.windspeed} km/h`;
     currentHumidity.innerText=`${store.humidity}%`;

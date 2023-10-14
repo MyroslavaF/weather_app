@@ -236,8 +236,8 @@ p.feels{
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
-    animation: dbm-animation 6s ease infinite;      /*Длительность и плавность анимации*/
-    -webkit-animation: dbm-animation 6s ease infinite;      /*Длительность и плавность анимации*/
+    animation: dbm-animation 6s ease infinite;      
+    -webkit-animation: dbm-animation 6s ease infinite;    
     background-size: 400% 200%;
 }
 @keyframes dbm-animation {
@@ -301,7 +301,7 @@ p.feels{
 }
 .lineToday{
     height: 3px;
-    width: 200px;
+    width: 160px;
     background-color: var(--accent-color);
 }
 .triangle-top {
@@ -321,6 +321,7 @@ p.feels{
     display:grid;
     grid-template-columns: repeat(7, minmax(120px, 2fr));
     grid-gap: 30px;
+   
     justify-content: center;
     align-content: center;
     padding-top: 30px;

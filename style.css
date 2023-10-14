@@ -1,0 +1,384 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+    min-height: 100vh;
+    font-family: 'JetBrains Mono', monospace;
+    background-image: url("img/background1.jpg");
+    background-position: top left;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+img{
+    display:block;
+}
+:root{
+    --accent-color: #FD4B7D;
+    --dark-color: #000;
+    --shadows: rgba(0, 0, 0, 0.25);
+    --button-color:#09C4FFFF;
+    --light-color:#fff;
+    --background-color: rgba(255, 255, 255, 0.32);
+}
+.container{
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto;
+}
+/*HEADER + MENU + SEARCHBAR */
+.header{
+    width:100%;
+    margin: 0 auto;
+}
+.menu{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    margin-bottom: 20px;
+}
+.logo{
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-family: 'Ysabeau', sans-serif;
+    margin-right: 20px;
+}
+.scale{
+    display: flex;
+    align-items: center ;
+}
+.scale div{
+    font-size: 1.5rem;
+}
+.celsius, .fahrenheit {
+    cursor:pointer;
+    width:30px;
+    height:30px;
+    text-align: center;
+    font-size: 1.5rem;
+
+}
+
+.active{
+    font-weight: 700;
+    color: var(--button-color);
+    text-shadow: 0 2px 3px var(--shadows);
+
+}
+
+.searchBar {
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-bottom: 40px;
+    position:relative;
+}
+#inputSearch {
+    width:400px;
+    height: 45px;
+    border: none;
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+    font-size: 16px;
+    padding: 0 15px;
+    background-color: var(--background-color);
+    cursor: text;
+    box-shadow:  0 2px 3px var(--shadows);
+}
+#inputSearch:focus{
+    outline: none;
+}
+#inputSearch::placeholder {
+     color: var(--shadows);
+ }
+button{
+    min-width: 40px;
+    height: 45px;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    background-color: var(--button-color);
+    background-size: 24px 30px;
+    border: none;
+    cursor:pointer;
+    box-shadow:  0 2px 3px var(--shadows);
+}
+/* CITY NAME WITH CURRENT DATE */
+.cityTitle_flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#cityTitle{
+    color: var(--accent-color);
+    text-shadow: 0 2px 3px var(--shadows);
+    font-size:3rem;
+    margin-bottom: 10px;
+}
+i.fa-location-dot{
+    color: var(--accent-color);
+    text-shadow: 0 2px 3px var(--shadows);
+    margin-right: 10px;
+    font-size: 25px;
+}
+#dateInfo{
+    color: var(--light-color);
+    text-shadow: 0 2px 3px var(--shadows);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+/*INFORMATION ABOUT WEATHER */
+.weatherInfo__flex{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: end;
+    margin-bottom: 30px;
+}
+.weatherInfo__flex p{
+    margin-bottom: 10px;
+}
+.weatherInfo__flex p:last-child{
+    margin-bottom: 0;
+}
+p.feels{
+    font-size: 1.5rem;
+    letter-spacing: -1.68px;
+}
+.info{
+    line-height: 1.5rem;
+    margin-bottom: 0;
+}
+.sunInfo{
+    width:100%;
+    margin-right: 30px;
+    flex: 0 0 220px;
+    display:flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+
+.weatherImg{
+    width:130px;
+    height: auto;
+    min-width: 40%;
+}
+.temperatureInfo{
+    width:100%;
+    margin-right: 30px;
+
+}
+.flex_item{
+    flex-grow: 1;
+}
+#temperature{
+    color: var(--accent-color);
+    text-shadow: 0 2px 3px var(--shadows);
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-family: 'Ysabeau', sans-serif;
+}
+/*ANIMATION OF NUMBER OF TEMPERATURE*/
+.gradient{
+    background: linear-gradient(270deg,  #0c26be, var(--accent-color), var(--button-color));
+  /*  background: -webkit-linear-gradient (270deg,  #0c26be, rgb(249, 23, 117), #09C4FF);*/
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    animation: dbm-animation 6s ease infinite;      /*Длительность и плавность анимации*/
+    -webkit-animation: dbm-animation 6s ease infinite;      /*Длительность и плавность анимации*/
+    background-size: 400% 200%;
+}
+@keyframes dbm-animation {
+    0% {
+        background-position: 0 center;
+    }
+    50% {
+        background-position: 50%  center;
+    }
+    100% {
+        background-position: 0  center;
+    }
+}
+/*MORE DESCRIBE SECTION*/
+.title_moreDescription{
+    color: var(--dark-color);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+.moreDescription {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    background: var(--background-color);
+    backdrop-filter: blur(4px);
+    margin-left: auto;
+    order: 2;
+    padding: 33px;
+}
+.moreDescriptionList{
+    list-style: none;
+    margin-right: 40px;
+    font-size: 1rem;
+}
+.moreDescriptionList li{
+    margin-bottom: 10px;
+}
+.moreDescriptionList li:last-child{
+    margin-bottom: 0;
+}
+.listas{
+    display:flex;
+}
+/*LINES */
+.line-today{
+    width: 200px;
+    height:35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: -3px;
+}
+.today{
+    text-align: center;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.lineToday{
+    height: 3px;
+    width: 200px;
+    background-color: var(--accent-color);
+}
+.triangle-top {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid var(--accent-color);
+}
+.line {
+    width:100%;
+    height: 3px;
+    background: var(--shadows);
+    margin: auto;
+}
+.weeklyWeather__grid{
+    display:grid;
+    grid-template-columns: repeat(7, minmax(120px, 2fr));
+    grid-gap: 30px;
+    justify-content: center;
+    align-content: center;
+    padding-top: 30px;
+}
+/*CARDS OF 7 DAYS FORECAST*/
+.card{
+    width:100%;
+    max-width: 160px;
+    height:auto;
+    border-radius: 8px;
+    background: var(--background-color);
+    padding: 15px;
+    box-shadow:  0 2px 3px var(--shadows);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: left;
+}
+.icon-wrapper{
+    text-align: center;
+}
+.temperature {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.imgWeeklyWeather{
+    width:70px;
+    max-width:100%;
+    height: 100%;
+    min-width: 40%;
+    margin: 0 auto;
+    vertical-align: middle;
+}
+.conditions{
+    margin-top: 10px;
+}
+.title_day{
+    color: var(--light-color);
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+}
+.weeklyWeather__grid p{
+    margin-bottom: 5px;
+    padding-top: 5px;
+}
+.date{
+    font-size: 0.8rem;
+    padding-bottom: 15px;
+}
+/*FOOTER*/
+.footer{
+    padding-top: 40px;
+    margin-bottom: 30px;
+}
+.footer_title{
+    color: var(--light-color);
+    font-size: 0.9rem;
+}

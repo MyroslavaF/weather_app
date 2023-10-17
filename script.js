@@ -21,6 +21,7 @@ mainIcon=document.querySelector(".weatherImg"),
       lastUpdate = document.querySelector(".last-update"),
       listTime = document.querySelector(".card-temp"),
       cardBox = document.querySelector(".cardBox"),
+      cityItems = document.querySelectorAll(".city-item"),
       cityList = document.getElementById("cityList");
       
       
@@ -129,23 +130,6 @@ const fetchData = async (city, unit) => {
     }
 };
 
-//Listener card 
-document.addEventListener("DOMContentLoaded", function() {
-    // Tu código JavaScript aquí
-    const cityItems = document.querySelectorAll(".city-item");
-
-    cityItems.forEach((cityItem) => {
-        cityItem.addEventListener("click", () => {
-            const cityName = cityItem.textContent;
-            fetchData(cityName, unitGroup);
-        });
-    });
-
-    // Otro código que quieras ejecutar después de que el DOM se haya cargado completamente.
-});
-    
-
-
 
 //Search form listener
  searchForm.addEventListener("submit", (event) =>{
@@ -161,27 +145,33 @@ document.addEventListener("DOMContentLoaded", function() {
      }
  })
 //add current location to list of cities
-function addCityToList(city, icon, temp, time) {
+function addCityToList() {
 
     const cityList = document.getElementById("cityList");
-    const listItem = document.createElement("li");
+    const listItem = document.createElement("div");
+  
     listItem.className = "card-item";
 
     listItem.innerHTML = `
     
         <div class="weather-city-item">
             <div class="card-info">
-                <p class="card-name">${city}</p>
+                <p class="card-name">${store.address}</p>
                 <span>
-                    <img src="${icon}" alt="" class="img-card">
-
+                    <img src="${getImage(store.icon)}" alt="" class="img-card">
                 </span>
-                <span class="card-temp">${temp}°</span>
+                <span class="card-temp">${store.temp}°</span>
             </div>
-            <span class="time-card">${time}</span>
+            <span class="time-card">${getHour(store.timezone)}</span>
         </div>
     `;
-
+    listItem.addEventListener("click", () => {
+        const cityElement = listItem.querySelector(".card-name");
+        const cityText = cityElement.textContent;
+        console.log("Clic en ciudad:", cityText);
+        
+        // Puedes realizar otras acciones aquí, como cargar datos del clima para esta ciudad
+    });
     cityList.appendChild(listItem);
 
     while (cityList.children.length > 3) {
@@ -200,6 +190,7 @@ function switchToCelsius() {
     celsiusBtn.classList.add("active");
     fahrenheitBtn.classList.remove("active");
     weekForecast();
+ 
 }
 function switchToFahrenheit() {
     unitGroup = "us";
@@ -219,7 +210,10 @@ function renderComponents() {
     currentCity.innerText= `${store.resolvedAddress}`;
    
     if(unitGroup==="us"){
-        changeUnits();
+        currentTemp.innerText = `${store.temp}°F`;
+        currentFeelsLike.innerText = `${store.feelslike}°F`;
+        currentVisibility.innerText = `${store.visibility} mi`;
+        currentWindSpeed.innerText=`${store.windspeed} mi/h`
     }else{
         currentTemp.innerText = `${store.temp}°C`;
         currentFeelsLike.innerText = `${store.feelslike}°C`;
@@ -238,13 +232,7 @@ function renderComponents() {
     lastUpdate.innerText = `Last update: ${getTimeWithoutSeconds(store.datetime)}`;
 
 }
-function changeUnits(){
-if(unitGroup==="us")
-        currentTemp.innerText = `${store.temp}°F`;
-        currentFeelsLike.innerText = `${store.feelslike}°F`;
-        currentVisibility.innerText = `${store.visibility} mi`;
-        currentWindSpeed.innerText=`${store.windspeed} mi/h`
-}
+
 //Update Icons
 function getImage(conditions){
 

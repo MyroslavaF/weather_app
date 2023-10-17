@@ -22,15 +22,20 @@ time, mark, audio, video {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
+
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+html{
+    height:100%;
+}
 body {
     line-height: 1;
     min-height: 100vh;
+    height:100%;
     font-family: 'JetBrains Mono', monospace;
     background-image: url("img/background1.jpg");
     background-position: top left;
@@ -56,6 +61,11 @@ table {
 img{
     display:block;
 }
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 :root{
     --accent-color: #FD4B7D;
     --dark-color: #000;
@@ -65,22 +75,28 @@ img{
     --background-color: rgba(255, 255, 255, 0.32);
 }
 .container{
-    max-width: 80%;
+    max-width: 1500px;
     height: auto;
     margin: 0 auto;
+    flex: 1 0 auto;
+
 }
 /*HEADER + MENU + SEARCHBAR */
 .header{
-    width:100%;
+    width:100%; 
     margin: 0 auto;
 }
+
 .menu{
+    height:70px;
     display:flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-top: 30px;
-    margin-bottom: 20px;
+    padding: 0 100px 0 100px;
+    margin-bottom: 100px;
+    background-color:rgba(222, 184, 135, 0.365);
+
 }
 .logo{
     font-size: 1.5rem;
@@ -88,9 +104,52 @@ img{
     font-family: 'Ysabeau', sans-serif;
     margin-right: 20px;
 }
+/*Cities cards */
+.cardContainer{
+    display:flex;
+    flex-direction: row; 
+}
+
+.card-item{
+    border-right: 1px solid #fff;
+    box-sizing: border-box;
+}
+.card-item:hover{
+    background-color: var(--shadows);
+}
+.weather-city-item{
+    display: flex;
+    flex-direction:column;
+    justify-content: left;
+    align-items: start;
+    cursor: pointer;
+    height: 48px;
+    width:100%;
+    padding-right: 4.25px;
+    margin: 5px 10px 5px 15px;
+}
+.card-info{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: row;
+}
+.img-card{
+    width:30px;
+    height:30px;
+    vertical-align: middle;
+}
+.card-temp{
+    font-size: 14px;
+    margin: 0 12px 0 6px;
+}
+.time-card{
+    font-size: 12px;
+}
 .scale{
     display: flex;
-    align-items: center ;
+    align-items: center;
+    justify-content: center;
 }
 .scale div{
     font-size: 1.5rem;
@@ -101,53 +160,54 @@ img{
     height:30px;
     text-align: center;
     font-size: 1.5rem;
-
 }
-
 .active{
     font-weight: 700;
     color: var(--button-color);
     text-shadow: 0 2px 3px var(--shadows);
 
 }
-
-.searchBar {
-    max-width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+/*Input Search Locations*/
+form>div {
+    display:flex;
     justify-content: center;
-    margin-bottom: 40px;
-    position:relative;
+    align-items: center;
+    
+}
+.searchBar{
+
+    border-radius: 20px;
+    padding-left: 10px;
+    background: var(--background-color);
 }
 #inputSearch {
-    width:400px;
+    width: 100%;
     height: 45px;
-    border: none;
-    border-top-left-radius: 9px;
-    border-bottom-left-radius: 9px;
-    font-size: 16px;
+    border:none;
+    font-size: 1rem;
     padding: 0 15px;
-    background-color: var(--background-color);
     cursor: text;
-    box-shadow:  0 2px 3px var(--shadows);
+    background-color:transparent;
+    color:black;
+    font-family: 'JetBrains Mono', monospace;
+
+}
+#inputSearch::placeholder{
+    color:grey;
+    font-size: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 100;
+
 }
 #inputSearch:focus{
     outline: none;
+   
 }
-#inputSearch::placeholder {
-     color: var(--shadows);
- }
-button{
-    min-width: 40px;
-    height: 45px;
-    border-top-right-radius: 9px;
-    border-bottom-right-radius: 9px;
-    background-color: var(--button-color);
-    background-size: 24px 30px;
-    border: none;
-    cursor:pointer;
-    box-shadow:  0 2px 3px var(--shadows);
+
+
+.fa-location-dot{
+    color: var(--shadows);
+    font-size: 15px;
 }
 /* CITY NAME WITH CURRENT DATE */
 .cityTitle_flex{
@@ -158,29 +218,25 @@ button{
 #cityTitle{
     color: var(--accent-color);
     text-shadow: 0 2px 3px var(--shadows);
-    font-size:3rem;
-    margin-bottom: 10px;
+    font-size:2rem;
+    margin-bottom: 20px;
 }
-i.fa-location-dot{
-    color: var(--accent-color);
-    text-shadow: 0 2px 3px var(--shadows);
-    margin-right: 10px;
-    font-size: 25px;
-}
+
 #dateInfo{
     color: var(--light-color);
-    text-shadow: 0 2px 3px var(--shadows);
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 30px;
+
+    font-size: 1.3rem;
+
+    
 }
 /*INFORMATION ABOUT WEATHER */
 .weatherInfo__flex{
     display:flex;
     flex-direction: row;
     justify-content: center;
-    align-items: end;
+    align-items:end;
     margin-bottom: 30px;
+    height:auto;
 }
 .weatherInfo__flex p{
     margin-bottom: 10px;
@@ -189,11 +245,10 @@ i.fa-location-dot{
     margin-bottom: 0;
 }
 p.feels{
-    font-size: 1.5rem;
-    letter-spacing: -1.68px;
+    font-size: 1.3rem;
 }
 .info{
-    line-height: 1.5rem;
+    max-height: 100%;
     margin-bottom: 0;
 }
 .sunInfo{
@@ -213,16 +268,18 @@ p.feels{
 }
 .temperatureInfo{
     width:100%;
+    height:100%;
     margin-right: 30px;
 
 }
-.flex_item{
-    flex-grow: 1;
+
+.temperatureInfo{
+    height: 100%;
 }
 #temperature{
     color: var(--accent-color);
     text-shadow: 0 2px 3px var(--shadows);
-    font-size: 5rem;
+    font-size: 4.5rem;
     font-weight: bold;
     margin-bottom: 15px;
     padding: 10px;
@@ -254,12 +311,12 @@ p.feels{
 /*MORE DESCRIBE SECTION*/
 .title_moreDescription{
     color: var(--dark-color);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
     margin-bottom: 30px;
 }
 .moreDescription {
-    width: 100%;
+    width: 70%;
     height: auto;
     border-radius: 8px;
     background: var(--background-color);
@@ -277,10 +334,11 @@ p.feels{
     margin-bottom: 10px;
 }
 .moreDescriptionList li:last-child{
-    margin-bottom: 0;
+    margin-bottom: 20px;
 }
 .listas{
     display:flex;
+    justify-content: space-between;
 }
 /*LINES */
 .line-today{
@@ -315,7 +373,7 @@ p.feels{
     width:100%;
     height: 3px;
     background: var(--shadows);
-    margin: auto;
+    margin: 0 auto;
 }
 .weeklyWeather__grid{
     display:grid;
@@ -324,7 +382,7 @@ p.feels{
    
     justify-content: center;
     align-content: center;
-    padding-top: 30px;
+    padding-top: 40px;
 }
 /*CARDS OF 7 DAYS FORECAST*/
 .card{
@@ -339,7 +397,9 @@ p.feels{
     flex-direction: column;
     justify-content: start;
     text-align: left;
+
 }
+
 .icon-wrapper{
     text-align: center;
 }
@@ -368,7 +428,7 @@ p.feels{
 }
 .weeklyWeather__grid p{
     margin-bottom: 5px;
-    padding-top: 5px;
+ 
 }
 .date{
     font-size: 0.8rem;
@@ -376,10 +436,16 @@ p.feels{
 }
 /*FOOTER*/
 .footer{
-    padding-top: 40px;
-    margin-bottom: 30px;
+display: flex;
+justify-content: center;
+align-items: center;
+    height: 50px;
+
+    background-color: var(--shadows);
+    flex: 0 0 auto;
 }
 .footer_title{
     color: var(--light-color);
     font-size: 0.9rem;
+
 }

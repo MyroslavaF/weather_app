@@ -1,69 +1,102 @@
 const currentDay = document.getElementById("dateInfo"),
     currentCity = document.getElementById("cityTitle");
-      currentTemp = document.getElementById("temperature"),
-      currentSunrise = document.getElementById("sunrise"),
-      currentSunset = document.getElementById("sunset"),
-currentFeelsLike = document.querySelector("#feels"),
-currentDescription = document.querySelector(".info"),
-currentWindSpeed = document.querySelector(".wind"),
-currentHumidity = document.querySelector(".humidity"),
-currentPressure=document.querySelector(".pressure"),
-currentPrecipType=document.querySelector(".precipType"),
-currentIndexUV=document.querySelector(".uvIndex"),
-currentVisibility=document.querySelector(".visibility"),
-mainIcon=document.querySelector(".weatherImg"),
+currentTemp = document.getElementById("temperature"),
+    currentSunrise = document.getElementById("sunrise"),
+    currentSunset = document.getElementById("sunset"),
+    currentFeelsLike = document.querySelector("#feels"),
+    currentDescription = document.querySelector(".info"),
+    currentWindSpeed = document.querySelector(".wind"),
+    currentHumidity = document.querySelector(".humidity"),
+    currentPressure = document.querySelector(".pressure"),
+    currentPrecipType = document.querySelector(".precipType"),
+    currentIndexUV = document.querySelector(".uvIndex"),
+    currentVisibility = document.querySelector(".visibility"),
+    mainIcon = document.querySelector(".weatherImg"),
     weatherCards = document.querySelector(".weeklyWeather__grid"),
-          inputSearch= document.getElementById("inputSearch"),
-          celsiusBtn = document.querySelector(".celsius"),
-          fahrenheitBtn = document.querySelector(".fahrenheit"),
-          tempUnit=document.querySelector(".temp-unit"),
-      searchForm=document.getElementById("search"),
-      lastUpdate = document.querySelector(".last-update"),
-      listTime = document.querySelector(".card-temp"),
-      cardBox = document.querySelector(".cardBox"),
-      cityItems = document.querySelectorAll(".city-item"),
-      cityList = document.getElementById("cityList");
-      
-      
+    inputSearch = document.getElementById("inputSearch"),
+    celsiusBtn = document.querySelector(".celsius"),
+    fahrenheitBtn = document.querySelector(".fahrenheit"),
+    tempUnit = document.querySelector(".temp-unit"),
+    searchForm = document.getElementById("search"),
+    lastUpdate = document.querySelector(".last-update"),
+    listTime = document.querySelector(".card-temp"),
+    cardBox = document.querySelector(".cardBox"),
+    cityItems = document.querySelectorAll(".city-item"),
+    cityList = document.getElementById("cityList");
+
+
 let cityDefault = "Madrid";
 let unitGroup = "metric";
 
 let lastCityList = [];
 
 let skipAddCityToList = false;
-
+let isCelsius = true;
 
 
 
 let store = {
     address: "",
-    resolvedAddress:"",
+    resolvedAddress: "",
     conditions: "",
-    timezone:"",
+    timezone: "",
     feelslike: 0,
-    humidity:0,
-    datetime:"",
-    pressure:0,
-    sunrise:"",
-    sunset:"",
-    temp:0,
-    icon:"",
-    windspeed:0,
+    humidity: 0,
+    datetime: "",
+    pressure: 0,
+    sunrise: "",
+    sunset: "",
+    temp: 0,
+    icon: "",
+    windspeed: 0,
     preciptype: "",
-    visibility:0,
-    uvindex:0,
-    description:"",
-    days:[]
+    visibility: 0,
+    uvindex: 0,
+    description: "",
+    days: []
 
 }
 const fetchData = async (city, unit) => {
-    try{
-    const result = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=${unit}&key=GCW6K77WPADHN62ZFESTKVZ8K&contentType=json`);
-    const data = await result.json();
+    try {
+        const result = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=${unit}&key=GCW6K77WPADHN62ZFESTKVZ8K&contentType=json`);
+        const data = await result.json();
 
-    //Desctructuring
-    const {
-        currentConditions: {
+        //Desctructuring
+        const {
+            currentConditions: {
+                conditions,
+                feelslike,
+                humidity,
+                pressure,
+                sunrise,
+                sunset,
+                temp,
+                windspeed,
+                uvindex: uvIndex,
+                preciptype: precipType,
+                visibility,
+                icon,
+                datetime,
+
+            },
+            resolvedAddress,
+            address,
+            description,
+            timezone,
+            days
+        } = data;
+
+        const firstSevenDays = days.slice(0, 7).map(day => ({
+            date: day.datetime,
+            maxTemp: day.tempmax,
+            minTemp: day.tempmin,
+            iconDay: day.icon,
+            conditionsDay: day.conditions
+        }));
+
+        store = {
+            ...store,
+            address,
             conditions,
             feelslike,
             humidity,
@@ -72,111 +105,93 @@ const fetchData = async (city, unit) => {
             sunset,
             temp,
             windspeed,
-            uvindex: uvIndex,
-            preciptype: precipType,
-            visibility,
-            icon,
+            precipType,
+            uvIndex,
             datetime,
-            
-        },
-        resolvedAddress,
-        address,
-        description,
-        timezone,
-        days
-    } = data;
+            description,
+            visibility,
+            timezone,
+            resolvedAddress,
+            icon,
+            days: firstSevenDays,
+        };
+        console.log(store);
 
-    const firstSevenDays = days.slice(0, 7).map(day => ({
-        date: day.datetime,
-        maxTemp: day.tempmax,
-        minTemp: day.tempmin,
-        iconDay: day.icon,
-        conditionsDay: day.conditions
-    }));
+        renderComponents();
+        weekForecast();
 
-    store = {
-        ...store,
-        address,
-        conditions,
-        feelslike,
-        humidity,
-        pressure,
-        sunrise,
-        sunset,
-        temp,
-        windspeed,
-        precipType,
-        uvIndex,
-        datetime,
-        description,
-        visibility,
-        timezone,
-        resolvedAddress,
-        icon,
-        days: firstSevenDays,
-    };
-    console.log(store);
+        if (!skipAddCityToList) {
+            addCityToList();
+        }
+        skipAddCityToList = false;
 
-     renderComponents();
-     weekForecast();
-
-     if (!skipAddCityToList) {
-        addCityToList(store.address, getImage(store.icon), store.temp, getHour(store.timezone));
-    }
-    skipAddCityToList = false;
-
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
 };
 
 
 //Search form listener
- searchForm.addEventListener("submit", (event) =>{
-     event.preventDefault();
+searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
     let location = inputSearch.value;
-     location = capitalizeFirstLetter(location);
+    location = capitalizeFirstLetter(location);
     if (location !== "") {
-       fetchData(location, unitGroup); 
-       currentCity.innerText = location;
-     
-      
-       inputSearch.value = "";
-     }
- })
+        fetchData(location, unitGroup);
+        currentCity.innerText = location;
+
+
+        inputSearch.value = "";
+    }
+})
 //add current location to list of cities
 function addCityToList() {
 
     const cityList = document.getElementById("cityList");
-    const listItem = document.createElement("div");
-  
+    const listItem = document.createElement("li");
+    const cityName = store.address;
+    const cityExists = existCityInList(cityName);
+
+    if(!cityExists){
     listItem.className = "card-item";
 
     listItem.innerHTML = `
     
         <div class="weather-city-item">
             <div class="card-info">
-                <p class="card-name">${store.address}</p>
+                <p class="card-name">${capitalizeFirstLetter(store.address)}</p>
                 <span>
                     <img src="${getImage(store.icon)}" alt="" class="img-card">
                 </span>
                 <span class="card-temp">${store.temp}°</span>
             </div>
-            <span class="time-card">${getHour(store.timezone)}</span>
+            <span class="time-card">${getTodayWithTime(store.timezone)}</span>
         </div>
     `;
     listItem.addEventListener("click", () => {
         const cityElement = listItem.querySelector(".card-name");
         const cityText = cityElement.textContent;
-        console.log("Clic en ciudad:", cityText);
-        
-        // Puedes realizar otras acciones aquí, como cargar datos del clima para esta ciudad
+        fetchData(cityText, unitGroup);
+        cityList.prepend(listItem, cityList.firstChild);
     });
-    cityList.appendChild(listItem);
+
+    cityList.prepend(listItem, cityList.firstChild);
 
     while (cityList.children.length > 3) {
-        cityList.removeChild(cityList.firstElementChild);
+        cityList.removeChild(cityList.lastChild);
     }
+}
+}
+
+function existCityInList(cityName) {
+    const cityListItems = document.querySelectorAll(".card-name");
+
+    for (let item of cityListItems) {
+        if (item.textContent === cityName) {
+            return true;
+        }
+    }
+    return false;
 }
 //help to avoid adding cities to list every time with fetch data
 function avoidAddCityToList() {
@@ -184,59 +199,81 @@ function avoidAddCityToList() {
 }
 // functions to change unit
 function switchToCelsius() {
-    unitGroup = "metric";
-    avoidAddCityToList();
-    fetchData(store.address, unitGroup);
-    celsiusBtn.classList.add("active");
-    fahrenheitBtn.classList.remove("active");
-    weekForecast();
- 
+    if (!isCelsius) { 
+        unitGroup = "metric";
+        avoidAddCityToList();
+        fetchData(store.address, unitGroup);
+        celsiusBtn.classList.add("active");
+        fahrenheitBtn.classList.remove("active");
+        weekForecast();
+
+        // //Update list of cities
+        const tempElements = document.querySelectorAll(".card-temp");
+    tempElements.forEach(tempElement => {
+        const currentTemp = parseFloat(tempElement.textContent);
+        const temperatureCelsius = cToF(currentTemp);
+        tempElement.textContent = `${temperatureCelsius.toFixed(0)}°C`; // Asegura que la temperatura se muestre con 2 decimales
+    });
+}isCelsius = true;
 }
+
 function switchToFahrenheit() {
-    unitGroup = "us";
-    avoidAddCityToList();
-    fetchData(store.address, unitGroup);
-    fahrenheitBtn.classList.add("active");
-    celsiusBtn.classList.remove("active");
-    weekForecast();
-  
+    if (isCelsius) { 
+        unitGroup = "us";
+        avoidAddCityToList();
+        fetchData(store.address, unitGroup);
+        fahrenheitBtn.classList.add("active");
+        celsiusBtn.classList.remove("active");
+        weekForecast();
+
+       //Update list of cities
+        const tempElements = document.querySelectorAll(".card-temp");
+    tempElements.forEach(tempElement => {
+        const currentTemp = parseFloat(tempElement.textContent);
+        const temperatureFahrenheit = fToC(currentTemp);
+        tempElement.textContent = `${temperatureFahrenheit.toFixed(0)}°F`; // Asegura que la temperatura se muestre con 2 decimales
+    });
+}isCelsius = false;
 }
+
 celsiusBtn.addEventListener("click", switchToCelsius);
 fahrenheitBtn.addEventListener("click", switchToFahrenheit);
+
+
 
 //Render main current information 
 function renderComponents() {
     currentDay.innerText = getFullDate(store.timezone);
-    currentCity.innerText= `${store.resolvedAddress}`;
-   
-    if(unitGroup==="us"){
+    currentCity.innerText = `${store.resolvedAddress}`;
+
+    if (unitGroup === "us") {
         currentTemp.innerText = `${store.temp}°F`;
         currentFeelsLike.innerText = `${store.feelslike}°F`;
         currentVisibility.innerText = `${store.visibility} mi`;
-        currentWindSpeed.innerText=`${store.windspeed} mi/h`
-    }else{
+        currentWindSpeed.innerText = `${store.windspeed} mi/h`
+    } else {
         currentTemp.innerText = `${store.temp}°C`;
         currentFeelsLike.innerText = `${store.feelslike}°C`;
         currentVisibility.innerText = `${store.visibility} km`;
-        currentWindSpeed.innerText=`${store.windspeed} km/h`
+        currentWindSpeed.innerText = `${store.windspeed} km/h`
     }
-    
-    currentSunrise.innerText= getTimeWithoutSeconds(store.sunrise);
-    currentSunset.innerText= getTimeWithoutSeconds(store.sunset);
-    currentDescription.innerText=`${store.description}`;
-    currentHumidity.innerText=`${store.humidity}%`;
-    currentPressure.innerText=`${store.pressure} mbar`;
-    currentPrecipType.innerText= store.precipType || `-`;
-    currentIndexUV.innerText=`${store.uvIndex}`;
+
+    currentSunrise.innerText = getTimeWithoutSeconds(store.sunrise);
+    currentSunset.innerText = getTimeWithoutSeconds(store.sunset);
+    currentDescription.innerText = `${store.description}`;
+    currentHumidity.innerText = `${store.humidity}%`;
+    currentPressure.innerText = `${store.pressure} mbar`;
+    currentPrecipType.innerText = store.precipType || `-`;
+    currentIndexUV.innerText = `${store.uvIndex}`;
     mainIcon.src = getImage(store.icon);
     lastUpdate.innerText = `Last update: ${getTimeWithoutSeconds(store.datetime)}`;
 
 }
 
 //Update Icons
-function getImage(conditions){
+function getImage(conditions) {
 
-    switch(conditions){
+    switch (conditions) {
         case "clear-day":
             return "img/Sunny.png";
             break;
@@ -282,8 +319,8 @@ function weekForecast() {
         const dayOfWeek = getDayOfWeek(dayData.date);
         const dateOfWeek = getDateOfWeek(dayData.date);
 
-            let maxTemp = dayData.maxTemp;
-            let minTemp = dayData.minTemp;
+        let maxTemp = dayData.maxTemp;
+        let minTemp = dayData.minTemp;
 
         card.innerHTML = `
         
@@ -307,70 +344,61 @@ function weekForecast() {
 }
 //Manipulations with date and time
 setInterval(() => {
-    const currentTime = getFullDate(store.timezone);
-    const listTime= getHour(store.timezone);
-    currentDay.innerText = currentTime;
-    listTime.innerText = listTime;
-}, 60000);
+
+    getFullDate(store.timezone);
+
+}, 1000);
+setInterval(() => {
+
+    getTodayWithTime(store.timezone);
+
+}, 1000);
 function getDayOfWeek(dateString) {
 
-        const days = [
-            'sunday',
-            'monday',
-            'tuesday',
-            'wednesday',
-            'thursday',
-            'friday',
-            'saturday',
-        ];
+    const options = {
+        weekday: 'long',
 
+    };
     const date = new Date(dateString);
-    const nameDay = date.getDay();
-    return days[nameDay];
+    const formattedDate = date.toLocaleDateString('en-US', options);
+    return formattedDate;
 }
-function getDateOfWeek(dateString){
-    const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ];
+function getDateOfWeek(dateString) {
+
+    const options = {
+
+        month: 'long',
+        day: 'numeric',
+
+    };
     const date = new Date(dateString);
-    const numberDate = date.getDate();
-    const month = months[date.getMonth()];
-    return `${numberDate} ${month}`
+    const formattedDate = date.toLocaleDateString('en-US', options);
+    return formattedDate;
 }
-function getHour(timezone){
+function getHour(timezone) {
     const options = {
         timeZone: timezone,
-        hour12:false,
+        hour12: false,
         hour: '2-digit',
         minute: '2-digit',
     };
+
     const time = new Date().toLocaleTimeString('en-US', options);
     return time;
 }
-function getTimeWithoutSeconds(dateString){
-    const timeWithoutSeconds = dateString.slice(0, -3); // Elimina los últimos 3 caracteres (los segundos)
+function getTimeWithoutSeconds(dateString) {
+    const timeWithoutSeconds = dateString.slice(0, -3);
     return timeWithoutSeconds;
 
 }
-function getFullDate(timezone){
-    // Formatear la fecha y hora del primer día
+function getFullDate(timezone) {
+
     const options = {
         timeZone: timezone,
         weekday: 'long',
         day: 'numeric',
         month: 'long',
-        hour12:false,
+        hour12: false,
         hour: '2-digit',
         minute: '2-digit',
     };
@@ -379,9 +407,33 @@ function getFullDate(timezone){
     return date;
 
 }
-function capitalizeFirstLetter(str){
+function getTodayWithTime(timezone) {
+    const options = {
+        timeZone: timezone,
+        day: 'numeric',
+        month: 'long',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    };
+    const date = new Date().toLocaleTimeString('en-US', options);
+    const parts = date.split(' at ');
+
+    return parts.join(', ');
+
+}
+function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function cToF(farh) {
+    const cels = (farh - 32) * 5 / 9;
+    return cels;
+}
+function fToC(cels) {
+    
+    const fahr = (cels * 9 / 5) + 32;
+    return fahr;
+}
 fetchData(cityDefault, unitGroup);
 

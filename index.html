@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Weather app</title>
@@ -9,113 +10,128 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c0f70c1de7.js" crossorigin="anonymous"></script>
-    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 </head>
+
 <body>
     <div class="wrapper">
-<div class="loader"></div>
+        <div class="loader"></div>
 
-<header class="header">
-    <div class="container"></div>
-<nav class="menu">
-    
-    <h2 class="logo">WEATHER APP </h2>
-    <div>
-            <form action="" id="search" >
-                <div class="searchBar">
-                    <i class="fa-solid fa-location-dot fa-lg icon-search"></i>
-                    <input type="text" placeholder="Search weather in..." id = "inputSearch">
-                   <!--<i class="fa-solid fa-magnifying-glass" style="color: grey;"></i>--> 
+        <header class="header">
+            <div class="container"></div>
+            <nav class="menu">
+
+                <h2 class="logo">WEATHER APP </h2>
+                <div>
+                    <form action="" id="search">
+                        <div class="searchBar">
+                            <i class="fa-solid fa-location-dot fa-lg icon-search"></i>
+                            <input type="text" placeholder="Search weather in..." id="inputSearch">
+                            <!--<i class="fa-solid fa-magnifying-glass" style="color: grey;"></i>-->
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div> 
-        <div class="div-container">
-            <ul class="cardContainer" id = "cityList">
-             
+                <div class="div-container">
+                    <ul class="cardContainer" id="cityList">
+
+
+                    </ul>
+                </div>
+                <div class="scale">
+                    <p class="celsius active">C</p>
+                    <div>|</div>
+                    <p class="fahrenheit">F</p>
+                </div>
+
+            </nav>
+
+            <div class="container">
+        </header>
+        <!--City name and date -->
+        <div class="container">
+            <section class="cityName">
+                <div class="cityTitle_flex">
+                    <h1 id="cityTitle"></h1>
+                </div>
+
+            </section>
+
+            <!--Main info about weather-->
+
+            <section class="weatherInfo">
+                <div class="weatherInfo__flex">
+                    <div class="sunInfo flex_item">
+                        <div class="weatherIcon">
+                            <img src="" alt="" class="weatherImg">
+                        </div>
+                        <p>Sunrise: <span id="sunrise"></span></p>
+                        <p>Sunset: <span id="sunset"></span></p>
+                    </div>
+                    <div class="temperatureInfo flex_item">
+                        <h6 id="dateInfo"></h6>
+                        <h1 class="gradient" id="temperature"><span class="temp-unit">°C</span></h1>
+                        <p class="feels">Feels like: <span id="feels"></span></p>
+                        <p class="info"></p>
+                    </div>
+                    <div class="moreDescription flex_item">
+                        <h4 class="title_moreDescription">More details:</h4>
+                        <div class="listas">
+                            <ul class="moreDescriptionList">
+                                <li> <i></i> Wind speed: <span class="wind"></span></li>
+                                <li>Air humidity: <span class="humidity"></span></li>
+                                <li>Precipitation: <span class="precipType"></span></li>
+                            </ul>
+                            <ul class="moreDescriptionList">
+                                <li>Index UV: <span class="uvIndex"></span></li>
+                                <li>Visibility: <span class="visibility"></span></li>
+                                <li>Pressure: <span class="pressure"></span></li>
+                            </ul>
+                        </div>
+                        <span class="last-update"></span>
+                    </div>
+                </div>
+            </section>
+            <div class="line-today">
+
+                <p class="today">Today</p>
+                <div class="triangle-top "></div>
+                <div class="lineToday"></div>
+
+            </div>
+            <div class="line"></div>
+        
+            <!--Weekly weather cards-->
+            
+                 <!-- Slider main container -->
+                <div class="weeklyWeather swiper mySwiper">
+                    <div class="weeklyWeather__grid swiper-wrapper">
+                        <!--Cards of daily forecast-->
+                        
+                    </div>
+               
+                    <div class="swiper-pagination"></div>
+                </div>
                 
-            </ul>
-        </div>
-        <div class="scale">
-            <p class="celsius active">C</p>
-            <div>|</div>
-            <p class="fahrenheit">F</p>
-        </div>
-    
-</nav>
-
-<div class="container">
-</header>
-<!--City name and date -->
-<div class="container">
-<section class="cityName">
-        <div class = "cityTitle_flex">
-            <h1 id="cityTitle"></h1>
-        </div>
         
-</section>
 
-<!--Main info about weather-->
 
-<section class="weatherInfo">
-        <div class="weatherInfo__flex">
-            <div class="sunInfo flex_item">
-                <div class="weatherIcon">
-                    <img src="" alt="" class="weatherImg">
-                </div>
-                <p>Sunrise: <span id="sunrise"></span></p>
-                <p>Sunset: <span id="sunset"></span></p>
-            </div>
-            <div class="temperatureInfo flex_item">
-                <h6 id="dateInfo"></h6>
-                <h1 class="gradient" id = "temperature"><span class="temp-unit">°C</span></h1>
-                <p class="feels">Feels like: <span id="feels"></span></p>
-                <p class="info"></p>
-            </div>
-            <div class="moreDescription flex_item">
-                <h4 class="title_moreDescription">More details:</h4>
-                <div class="listas">
-                    <ul class="moreDescriptionList">
-                        <li> <i></i>  Wind speed: <span class="wind"></span></li>
-                        <li>Air humidity: <span class="humidity"></span></li>
-                        <li>Precipitation: <span class="precipType"></span></li>
-                    </ul>
-                    <ul class="moreDescriptionList">
-                        <li>Index UV: <span class="uvIndex"></span></li>
-                        <li>Visibility: <span class="visibility"></span></li>
-                        <li>Pressure: <span class="pressure"></span></li>
-                    </ul>
-                </div>
-                <span class = "last-update"></span>
-            </div>
+        </div><!--end of container-->
+    </div><!--end of wrapper-->
+   
+
+   
+    <footer class="footer">
+        <div class="container">
+            <p class="footer_title">Webside by Myroslava Farion | myroslava.farion@gmail.com</p>
         </div>
-</section>
-    <div class = "line-today">
 
-        <p class="today">Today</p>
-        <div class = "triangle-top "></div>
-        <div class="lineToday"></div>
-
+    </footer>
     </div>
-    <div class="line"></div>
-
-<!--Weekly weather cards-->
-
-                <div class="weeklyWeather">
-                <div class="weeklyWeather__grid">
-                    
-                </div>
-        </div>
-    
-
-
-</div>
-<footer class="footer">
-    <div class="container">
-        <p class="footer_title">Webside by Myroslava Farion | myroslava.farion@gmail.com</p>
-    </div>
-        
-</footer>
-</div>
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>

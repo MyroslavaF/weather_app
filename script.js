@@ -86,7 +86,7 @@ const fetchData = async (city, unit) => {
             days
         } = data;
 
-        const firstSevenDays = days.slice(0, 7).map(day => ({
+        const firstSevenDays = days.slice(0, 14).map(day => ({
             date: day.datetime,
             maxTemp: day.tempmax,
             minTemp: day.tempmin,
@@ -124,6 +124,7 @@ const fetchData = async (city, unit) => {
             addCityToList();
         }
         skipAddCityToList = false;
+        swiper.update()
 
     } catch (err) {
         console.log(err);
@@ -306,7 +307,7 @@ function getImage(conditions) {
 }
 //update week cards forecast
 function weekForecast() {
-    const numCards = 7; // Número de tarjetas a crear para la semana
+    const numCards = 14; // Número de tarjetas a crear para la semana
 
     const weatherCards = document.querySelector(".weeklyWeather__grid");
     weatherCards.innerHTML = "";
@@ -315,7 +316,7 @@ function weekForecast() {
         const dayData = store.days[i]; // Obtén los datos del día correspondiente
 
         const card = document.createElement("div");
-        card.classList.add("card");
+        card.classList.add("swiper-slide");
         const dayOfWeek = getDayOfWeek(dayData.date);
         const dateOfWeek = getDateOfWeek(dayData.date);
 
@@ -323,6 +324,7 @@ function weekForecast() {
         let minTemp = dayData.minTemp;
 
         card.innerHTML = `
+        <div class="card">
         
             <p class="title_day">${dayOfWeek}</p>
             <p class = "date">${dateOfWeek}</p>
@@ -331,11 +333,12 @@ function weekForecast() {
                 <p>min. ${minTemp}°</p>
             </div>
             <div class="icon-wrapper">
-               <img src="${getImage(dayData.iconDay)}" alt="Icono del tiempo" class="imgWeeklyWeather">
+               <img src="${getImage(dayData.iconDay)}" alt="Icono del tiempo" class="iconWeeklyWeather">
             </div>
             
             <p class="conditions">${dayData.conditionsDay}</p>
-			     
+            
+			</div>     
     `;
 
         // Agrega la tarjeta al contenedor de tarjetas de pronóstico
@@ -435,5 +438,26 @@ function fToC(cels) {
     const fahr = (cels * 9 / 5) + 32;
     return fahr;
 }
+
+
+var swiper = new Swiper(".mySwiper", {
+    initialSlide: 0,  
+    slidesPerView: 6.5,
+    spaceBetween: 10,
+    freeMode: true,
+    pagination: {
+        el: ".swiper-pagination",
+        dynamicBullets: true,
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      keyboard: {
+        enabled: true,
+      },
+  });
+  
 fetchData(cityDefault, unitGroup);
 

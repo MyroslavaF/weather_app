@@ -10,21 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c0f70c1de7.js" crossorigin="anonymous"></script>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-
+    <link rel="stylesheet" type="text/css" href="styles/media-queries.css">
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
 </head>
 
 <body>
     <div class="wrapper">
         <div class="loader"></div>
-
         <header class="header">
-            <div class="container"></div>
             <nav class="menu">
-
                 <h2 class="logo">WEATHER APP </h2>
                 <div>
                     <form action="" id="search">
@@ -35,49 +30,54 @@
                         </div>
                     </form>
                 </div>
-                <div class="div-container">
-                    <ul class="cardContainer" id="cityList">
 
 
-                    </ul>
+                <div class="carouselBox">
+                    <div class="carousel-container">
+                        <div class="carousel" id="cityCarousel">
+                            <!-- Las diapositivas (ciudades) se agregarán aquí -->
+                        </div>
+                    </div>
+                    <button id="prevBtn">Prev</button>
+                    <button id="nextBtn">Next</button>
                 </div>
+
                 <div class="scale">
                     <p class="celsius active">C</p>
                     <div>|</div>
                     <p class="fahrenheit">F</p>
                 </div>
-
             </nav>
-
-            <div class="container">
         </header>
+
         <!--City name and date -->
         <div class="container">
             <section class="cityName">
                 <div class="cityTitle_flex">
                     <h1 id="cityTitle"></h1>
                 </div>
-
             </section>
 
             <!--Main info about weather-->
 
             <section class="weatherInfo">
                 <div class="weatherInfo__flex">
-                    <div class="sunInfo flex_item">
+
+                    <div class="sunInfo">
                         <div class="weatherIcon">
                             <img src="" alt="" class="weatherImg">
                         </div>
                         <p>Sunrise: <span id="sunrise"></span></p>
                         <p>Sunset: <span id="sunset"></span></p>
                     </div>
-                    <div class="temperatureInfo flex_item">
+                    <div class="temperatureInfo">
                         <h6 id="dateInfo"></h6>
                         <h1 class="gradient" id="temperature"><span class="temp-unit">°C</span></h1>
                         <p class="feels">Feels like: <span id="feels"></span></p>
                         <p class="info"></p>
                     </div>
-                    <div class="moreDescription flex_item">
+
+                    <div class="moreDescription">
                         <h4 class="title_moreDescription">More details:</h4>
                         <div class="listas">
                             <ul class="moreDescriptionList">
@@ -95,42 +95,29 @@
                     </div>
                 </div>
             </section>
-            <div class="line-today">
-
+            <!-- <div class="line-today">
                 <p class="today">Today</p>
                 <div class="triangle-top "></div>
                 <div class="lineToday"></div>
-
-            </div>
+            </div> -->
             <div class="line"></div>
-        
-            <!--Weekly weather cards-->
-            
-                 <!-- Slider main container -->
-                <div class="weeklyWeather swiper mySwiper">
-                    <div class="weeklyWeather__grid swiper-wrapper">
-                        <!--Cards of daily forecast-->
-                        
-                    </div>
-               
-                    <div class="swiper-pagination"></div>
-                </div>
-                
-        
 
+            <!--Weekly weather cards-->
+            <!-- Slider main container -->
+            <div class="weeklyWeather swiper mySwiper">
+                <div class="weeklyWeather__grid swiper-wrapper">
+                    <!--Cards of daily forecast-->
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
 
         </div><!--end of container-->
-    </div><!--end of wrapper-->
-   
 
-   
-    <footer class="footer">
-        <div class="container">
-            <p class="footer_title">Webside by Myroslava Farion | myroslava.farion@gmail.com</p>
+        <!--Footer-->
+        <div class="footer">
+            <p class="footer_title">Webside by Myroslava Farion</p>
         </div>
-
-    </footer>
-    </div>
+    </div><!--end of wrapper-->
     <script src="script.js"></script>
 </body>
 

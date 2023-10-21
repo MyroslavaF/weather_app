@@ -1,6 +1,6 @@
 const currentDay = document.getElementById("dateInfo"),
     currentCity = document.getElementById("cityTitle");
-currentTemp = document.getElementById("temperature"),
+    currentTemp = document.getElementById("temperature"),
     currentSunrise = document.getElementById("sunrise"),
     currentSunset = document.getElementById("sunset"),
     currentFeelsLike = document.querySelector("#feels"),
@@ -20,21 +20,46 @@ currentTemp = document.getElementById("temperature"),
     searchForm = document.getElementById("search"),
     lastUpdate = document.querySelector(".last-update"),
     listTime = document.querySelector(".card-temp"),
+    timeCard = document.querySelector(".time-card"),
     cardBox = document.querySelector(".cardBox"),
     cityItems = document.querySelectorAll(".city-item"),
+    buttonAngle = document.querySelector(".angleButton"),
     cityList = document.getElementById("cityList");
+    
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
 
+    const cityCarousel = document.getElementById("cityCarousel");
+
+  
+      const slideWidth = 150; // Ancho de cada slide
+      const visibleSlides = 2.5; 
+      let currentIndex = 0;
+
+prevBtn.addEventListener("click", () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    updateSlider();
+  }
+});
+
+nextBtn.addEventListener("click", () => {
+  if (currentIndex < cityCarousel.children.length - visibleSlides) {
+    currentIndex++;
+    updateSlider();
+  }
+});
+
+function updateSlider() {
+  const translateX = -currentIndex * slideWidth;
+  cityCarousel.style.transform = `translateX(${translateX}px)`;
+}
 
 let cityDefault = "Madrid";
 let unitGroup = "metric";
-
 let lastCityList = [];
-
 let skipAddCityToList = false;
 let isCelsius = true;
-
-
-
 let store = {
     address: "",
     resolvedAddress: "",
@@ -54,30 +79,27 @@ let store = {
     uvindex: 0,
     description: "",
     days: []
-
 }
 const fetchData = async (city, unit) => {
     try {
         const result = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=${unit}&key=GCW6K77WPADHN62ZFESTKVZ8K&contentType=json`);
         const data = await result.json();
-
         //Desctructuring
         const {
             currentConditions: {
                 conditions,
-                feelslike,
+                feelslike: feelsLike,
                 humidity,
                 pressure,
                 sunrise,
                 sunset,
                 temp,
-                windspeed,
+                windspeed: windSpeed,
                 uvindex: uvIndex,
                 preciptype: precipType,
                 visibility,
                 icon,
                 datetime,
-
             },
             resolvedAddress,
             address,
@@ -86,7 +108,7 @@ const fetchData = async (city, unit) => {
             days
         } = data;
 
-        const firstSevenDays = days.slice(0, 14).map(day => ({
+        const sevenDays = days.slice(0, 7).map(day => ({
             date: day.datetime,
             maxTemp: day.tempmax,
             minTemp: day.tempmin,
@@ -98,13 +120,13 @@ const fetchData = async (city, unit) => {
             ...store,
             address,
             conditions,
-            feelslike,
+            feelsLike,
             humidity,
             pressure,
             sunrise,
             sunset,
             temp,
-            windspeed,
+            windSpeed,
             precipType,
             uvIndex,
             datetime,
@@ -113,7 +135,7 @@ const fetchData = async (city, unit) => {
             timezone,
             resolvedAddress,
             icon,
-            days: firstSevenDays,
+            days: sevenDays,
         };
         console.log(store);
 
@@ -124,7 +146,8 @@ const fetchData = async (city, unit) => {
             addCityToList();
         }
         skipAddCityToList = false;
-        swiper.update()
+        swiper.update();
+  
 
     } catch (err) {
         console.log(err);
@@ -140,49 +163,40 @@ searchForm.addEventListener("submit", (event) => {
     if (location !== "") {
         fetchData(location, unitGroup);
         currentCity.innerText = location;
-
-
         inputSearch.value = "";
     }
 })
 //add current location to list of cities
 function addCityToList() {
-
-    const cityList = document.getElementById("cityList");
-    const listItem = document.createElement("li");
+    const cityCarousel = document.getElementById("cityCarousel");
+    const slide = document.createElement("div");
     const cityName = store.address;
     const cityExists = existCityInList(cityName);
-
-    if(!cityExists){
-    listItem.className = "card-item";
-
-    listItem.innerHTML = `
-    
+  
+    if (!cityExists) {
+      slide.className = "carousel-slide"; // Clase para cada diapositiva
+  
+      slide.innerHTML = `
         <div class="weather-city-item">
-            <div class="card-info">
-                <p class="card-name">${capitalizeFirstLetter(store.address)}</p>
-                <span>
-                    <img src="${getImage(store.icon)}" alt="" class="img-card">
-                </span>
-                <span class="card-temp">${store.temp}°</span>
-            </div>
-            <span class="time-card">${getTodayWithTime(store.timezone)}</span>
+          <div class="card-info">
+            <p class="card-name">${capitalizeFirstLetter(store.address)}</p>
+            <span>
+              <img src="${getImage(store.icon)}" alt="" class="img-card">
+            </span>
+            <span class="card-temp">${store.temp}°</span>
+          </div>
+          <span class="time-card">${getTodayWithTime(store.timezone)}</span>
         </div>
-    `;
-    listItem.addEventListener("click", () => {
-        const cityElement = listItem.querySelector(".card-name");
-        const cityText = cityElement.textContent;
-        fetchData(cityText, unitGroup);
-        cityList.prepend(listItem, cityList.firstChild);
-    });
-
-    cityList.prepend(listItem, cityList.firstChild);
-
-    while (cityList.children.length > 3) {
-        cityList.removeChild(cityList.lastChild);
+      `;
+  
+      cityCarousel.prepend(slide);
+  
+      // Limitar el número de diapositivas en el carrusel
+      while (cityCarousel.children.length > 4) {
+        cityCarousel.removeChild(cityCarousel.lastChild);
+      }
     }
-}
-}
+  }
 
 function existCityInList(cityName) {
     const cityListItems = document.querySelectorAll(".card-name");
@@ -200,7 +214,7 @@ function avoidAddCityToList() {
 }
 // functions to change unit
 function switchToCelsius() {
-    if (!isCelsius) { 
+    if (!isCelsius) {
         unitGroup = "metric";
         avoidAddCityToList();
         fetchData(store.address, unitGroup);
@@ -210,16 +224,16 @@ function switchToCelsius() {
 
         // //Update list of cities
         const tempElements = document.querySelectorAll(".card-temp");
-    tempElements.forEach(tempElement => {
-        const currentTemp = parseFloat(tempElement.textContent);
-        const temperatureCelsius = cToF(currentTemp);
-        tempElement.textContent = `${temperatureCelsius.toFixed(0)}°C`; // Asegura que la temperatura se muestre con 2 decimales
-    });
-}isCelsius = true;
+        tempElements.forEach(tempElement => {
+            const currentTemp = parseFloat(tempElement.textContent);
+            const temperatureCelsius = cToF(currentTemp);
+            tempElement.textContent = `${temperatureCelsius.toFixed(0)}°C`; // Asegura que la temperatura se muestre con 2 decimales
+        });
+    } isCelsius = true;
 }
 
 function switchToFahrenheit() {
-    if (isCelsius) { 
+    if (isCelsius) {
         unitGroup = "us";
         avoidAddCityToList();
         fetchData(store.address, unitGroup);
@@ -227,18 +241,19 @@ function switchToFahrenheit() {
         celsiusBtn.classList.remove("active");
         weekForecast();
 
-       //Update list of cities
+        //Update list of cities
         const tempElements = document.querySelectorAll(".card-temp");
-    tempElements.forEach(tempElement => {
-        const currentTemp = parseFloat(tempElement.textContent);
-        const temperatureFahrenheit = fToC(currentTemp);
-        tempElement.textContent = `${temperatureFahrenheit.toFixed(0)}°F`; // Asegura que la temperatura se muestre con 2 decimales
-    });
-}isCelsius = false;
+        tempElements.forEach(tempElement => {
+            const currentTemp = parseFloat(tempElement.textContent);
+            const temperatureFahrenheit = fToC(currentTemp);
+            tempElement.textContent = `${temperatureFahrenheit.toFixed(0)}°F`; // Asegura que la temperatura se muestre con 2 decimales
+        });
+    } isCelsius = false;
 }
 
 celsiusBtn.addEventListener("click", switchToCelsius);
 fahrenheitBtn.addEventListener("click", switchToFahrenheit);
+
 
 
 
@@ -249,14 +264,14 @@ function renderComponents() {
 
     if (unitGroup === "us") {
         currentTemp.innerText = `${store.temp}°F`;
-        currentFeelsLike.innerText = `${store.feelslike}°F`;
+        currentFeelsLike.innerText = `${store.feelsLike}°F`;
         currentVisibility.innerText = `${store.visibility} mi`;
-        currentWindSpeed.innerText = `${store.windspeed} mi/h`
+        currentWindSpeed.innerText = `${store.windSpeed} mi/h`
     } else {
         currentTemp.innerText = `${store.temp}°C`;
-        currentFeelsLike.innerText = `${store.feelslike}°C`;
+        currentFeelsLike.innerText = `${store.feelsLike}°C`;
         currentVisibility.innerText = `${store.visibility} km`;
-        currentWindSpeed.innerText = `${store.windspeed} km/h`
+        currentWindSpeed.innerText = `${store.windSpeed} km/h`
     }
 
     currentSunrise.innerText = getTimeWithoutSeconds(store.sunrise);
@@ -307,14 +322,13 @@ function getImage(conditions) {
 }
 //update week cards forecast
 function weekForecast() {
-    const numCards = 14; // Número de tarjetas a crear para la semana
+    const numCards = 7; // Número de tarjetas a crear para la semana
 
     const weatherCards = document.querySelector(".weeklyWeather__grid");
     weatherCards.innerHTML = "";
 
     for (let i = 0; i < numCards; i++) {
         const dayData = store.days[i]; // Obtén los datos del día correspondiente
-
         const card = document.createElement("div");
         card.classList.add("swiper-slide");
         const dayOfWeek = getDayOfWeek(dayData.date);
@@ -324,38 +338,36 @@ function weekForecast() {
         let minTemp = dayData.minTemp;
 
         card.innerHTML = `
-        <div class="card">
-        
-            <p class="title_day">${dayOfWeek}</p>
-            <p class = "date">${dateOfWeek}</p>
-            <div class="temperature">
-                <p>max. ${maxTemp}°</p>
-                <p>min. ${minTemp}°</p>
-            </div>
-            <div class="icon-wrapper">
-               <img src="${getImage(dayData.iconDay)}" alt="Icono del tiempo" class="iconWeeklyWeather">
-            </div>
-            
-            <p class="conditions">${dayData.conditionsDay}</p>
-            
-			</div>     
-    `;
-
-        // Agrega la tarjeta al contenedor de tarjetas de pronóstico
+                <div class="card">
+                    <p class="title_day">${dayOfWeek}</p>
+                    <p class = "date">${dateOfWeek}</p>
+                    <div class="temperature">
+                        <p>max. ${maxTemp}°</p>
+                        <p>min. ${minTemp}°</p>
+                    </div>
+                    <div class="icon-wrapper">
+                    <img src="${getImage(dayData.iconDay)}" alt="Icono del tiempo" class="iconWeeklyWeather">
+                    </div>
+                    <p class="conditions">${dayData.conditionsDay}</p>
+                </div>     
+            `;
         weatherCards.appendChild(card);
     }
 }
 //Manipulations with date and time
-setInterval(() => {
 
-    getFullDate(store.timezone);
+setInterval(updateClock, 6000);
+setInterval(updateClock2, 6000);
 
-}, 1000);
-setInterval(() => {
+function updateClock(){
+    const currentDate= getFullDate(store.timezone);
+    currentDay.innerText = currentDate;
+}
+function updateClock2(){
+    const time = getTodayWithTime(store.timezone);
+    timeCard = time;
+}
 
-    getTodayWithTime(store.timezone);
-
-}, 1000);
 function getDayOfWeek(dateString) {
 
     const options = {
@@ -426,7 +438,7 @@ function getTodayWithTime(timezone) {
 
 }
 function capitalizeFirstLetter(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
 function cToF(farh) {
@@ -434,30 +446,52 @@ function cToF(farh) {
     return cels;
 }
 function fToC(cels) {
-    
+
     const fahr = (cels * 9 / 5) + 32;
     return fahr;
 }
 
-
-var swiper = new Swiper(".mySwiper", {
-    initialSlide: 0,  
-    slidesPerView: 6.5,
+let swiper = new Swiper(".mySwiper", {
+    initialSlide: 0,
+    slidesPerView: 7,
     spaceBetween: 10,
     freeMode: true,
     pagination: {
         el: ".swiper-pagination",
         dynamicBullets: true,
         clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      keyboard: {
-        enabled: true,
-      },
-  });
-  
-fetchData(cityDefault, unitGroup);
+    },
 
+    keyboard: {
+        enabled: true,
+    },
+    breakpoints: {
+        640: {
+          slidesPerView: 2,
+         
+        },
+        769: {
+          slidesPerView:6,
+         
+        },
+        1024: {
+          slidesPerView: 6,
+
+        },
+        1200: {
+            slidesPerView: 7,
+            spaceBetween: 10,
+        },
+        1800: {
+            slidesPerView: 7,
+        },
+        1921: {
+            slidesPerView: 7,
+        }
+      },
+});
+
+
+
+
+fetchData(cityDefault, unitGroup);

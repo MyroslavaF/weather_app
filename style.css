@@ -30,6 +30,8 @@ footer, header, hgroup, menu, nav, section {
 }
 html{
     height:100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 body {
     line-height: 1;
@@ -41,6 +43,9 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
+    max-width: 100%;
+    overflow-x: hidden;
+
 }
 ol, ul {
     list-style: none;
@@ -60,11 +65,7 @@ table {
 img{
     display:block;
 }
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+
 :root{
     --accent-color: #FD4B7D;
     --dark-color: #000;
@@ -73,17 +74,22 @@ img{
     --light-color:#fff;
     --background-color: rgba(203, 203, 203, 0.283);
 }
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 .container{
     max-width: 1500px;
-    height: auto;
     margin: 0 auto;
     flex: 1 0 auto;
 }
 /*HEADER + MENU + SEARCHBAR */
 .header{
     width:100%;
-    height:70px;
-    margin: 0 auto 50px;
+    height:auto;
+    margin: 0 auto;
+    
 }
 .menu{
     height:70px;
@@ -92,7 +98,7 @@ img{
     justify-content: space-between;
     align-items: center;
     padding: 0 100px 0 100px;
-    margin-bottom: 100px;
+    margin-bottom: 70px;
     background-color:rgba(222, 184, 135, 0.365);;
 }
 .logo{
@@ -102,26 +108,46 @@ img{
     margin-right: 20px;
 }
 /*Cities cards */
-.cardContainer{
-    display:flex;
-    flex-direction: row; 
+
+.carouselBox{
+    display: flex;
+
 }
-.card-item{
+.carousel-container {
+    width: 500px; /* Ancho para mostrar 3.5 diapositivas */
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .carousel {
+    display: flex;
+    transition: transform 0.3s ease;
+  }
+  
+  .carousel-slide {
+    width: 250px; /* Ancho de cada diapositiva */
+    height: auto; /* Alto de cada diapositiva */
+    margin-right: 10px; /* Margen entre diapositivas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-right: 1px solid #fff;
     box-sizing: border-box;
-}
-.card-item:hover{
-    background-color: var(--shadows);
-}
+  }
+  
+  button {
+    margin: 5px;
+  }
+
 .weather-city-item{
     display: flex;
     flex-direction:column;
-    justify-content: left;
+    justify-content: center;
     align-items: start;
     cursor: pointer;
     height: 48px;
     width:100%;
-    padding-right: 4.25px;
+    padding-right: 4px;
     margin: 5px 10px 5px 15px;
 }
 .card-name{
@@ -189,7 +215,7 @@ form>div {
     font-family: 'JetBrains Mono', monospace;
 }
 #inputSearch::placeholder{
-    color:grey;
+    color:rgba(128, 128, 128, 0.655);
     font-size: 1rem;
     font-family: 'JetBrains Mono', monospace;
     font-weight: 100;
@@ -201,6 +227,10 @@ form>div {
     color: var(--shadows);
     font-size: 15px;
 }
+
+
+
+
 /* CITY NAME WITH CURRENT DATE */
 .cityTitle_flex{
     display: flex;
@@ -211,7 +241,7 @@ form>div {
     color: var(--accent-color);
     text-shadow: 0 2px 3px var(--shadows);
     font-size:2rem;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 #dateInfo{
     color: var(--light-color);
@@ -221,11 +251,12 @@ form>div {
 .weatherInfo__flex{
     display:flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     align-items:end;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     height:auto;
 }
+
 .weatherInfo__flex p{
     margin-bottom: 10px;
 }
@@ -254,13 +285,11 @@ p.feels{
     min-width: 40%;
 }
 .temperatureInfo{
-    width:100%;
+   
     height:100%;
     margin-right: 30px;
 }
-.temperatureInfo{
-    height: 100%;
-}
+
 #temperature{
     color: var(--accent-color);
     text-shadow: 0 2px 3px var(--shadows);
@@ -301,7 +330,7 @@ p.feels{
     margin-bottom: 30px;
 }
 .moreDescription {
-    width: 70%;
+    width: 400px;
     height: auto;
     border-radius: 8px;
     background: var(--background-color);
@@ -323,7 +352,7 @@ p.feels{
 }
 .listas{
     display:flex;
-    justify-content: space-between;
+    justify-content: left;
 }
 /*LINES */
 .line-today{
@@ -362,10 +391,8 @@ p.feels{
 }
 
 /*CARDS OF 7 DAYS FORECAST*/
-
-.swiper {
+.mySwiper {
     width: 100%;
-
   }
   .swiper-wrapper{
     height: auto;
@@ -385,7 +412,7 @@ p.feels{
     background: var(--background-color);
     box-shadow: 0 2px 3px var(--shadows);
     text-align: left;
-    padding: 25px 15px 25px 15px;
+    padding: 15px;
     display:flex;
     flex-direction: column;
     justify-content: baseline;
@@ -435,8 +462,9 @@ p.feels{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80px;
+    height: 50px;
     flex: 0 0 auto;
+
 }
 .footer_title{
     color: var(--light-color);

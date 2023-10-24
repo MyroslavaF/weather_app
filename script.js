@@ -22,38 +22,16 @@ const currentDay = document.getElementById("dateInfo"),
     listTime = document.querySelector(".card-temp"),
     timeCard = document.querySelector(".time-card"),
     cardBox = document.querySelector(".cardBox"),
-    cityItems = document.querySelectorAll(".city-item"),
-    buttonAngle = document.querySelector(".angleButton"),
-    cityList = document.getElementById("cityList");
+    cityItems = document.querySelectorAll(".city-item");
+   
     
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
-    const cityCarousel = document.getElementById("cityCarousel");
 
   
-      const slideWidth = 150; // Ancho de cada slide
-      const visibleSlides = 2.5; 
-      let currentIndex = 0;
 
-prevBtn.addEventListener("click", () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateSlider();
-  }
-});
 
-nextBtn.addEventListener("click", () => {
-  if (currentIndex < cityCarousel.children.length - visibleSlides) {
-    currentIndex++;
-    updateSlider();
-  }
-});
-
-function updateSlider() {
-  const translateX = -currentIndex * slideWidth;
-  cityCarousel.style.transform = `translateX(${translateX}px)`;
-}
 
 let cityDefault = "Madrid";
 let unitGroup = "metric";
@@ -168,16 +146,19 @@ searchForm.addEventListener("submit", (event) => {
 })
 //add current location to list of cities
 function addCityToList() {
-    const cityCarousel = document.getElementById("cityCarousel");
+    const cityCarousel = document.querySelector(".swiper-wrapper");
     const slide = document.createElement("div");
     const cityName = store.address;
     const cityExists = existCityInList(cityName);
   
-    if (!cityExists) {
-      slide.className = "carousel-slide"; // Clase para cada diapositiva
-  
+
+if(cityExists){
+    const existingSlide = existSlideInCarousel(cityName);
+    cityCarousel.prepend(existingSlide);
+}else {
+      slide.className = "swiper-slide slide1";
       slide.innerHTML = `
-        <div class="weather-city-item">
+        <div class = "weather-city-item">
           <div class="card-info">
             <p class="card-name">${capitalizeFirstLetter(store.address)}</p>
             <span>
@@ -188,15 +169,36 @@ function addCityToList() {
           <span class="time-card">${getTodayWithTime(store.timezone)}</span>
         </div>
       `;
+      slide.addEventListener("click", () => {
+        const cityElement = slide.querySelector(".card-name");
+        const cityText = cityElement.textContent;
+        cityCarousel.prepend(slide, cityCarousel.firstChild);
+        fetchData(cityText, unitGroup);
+    });
+
+      cityCarousel.prepend(slide,cityCarousel.firstChild);
   
-      cityCarousel.prepend(slide);
-  
-      // Limitar el número de diapositivas en el carrusel
-      while (cityCarousel.children.length > 4) {
+      while (cityCarousel.children.length > 5) {
         cityCarousel.removeChild(cityCarousel.lastChild);
       }
+
+
     }
+    swiper2.update();
+
   }
+
+
+ function existSlideInCarousel(cityName){
+    const slides = document.querySelectorAll(".swiper-slide slide1");
+     for (const slide of slides) {
+        const cardName = slide.querySelector(".card-name");
+         if (cardName.textContent === cityName) {
+          return slide;
+        }
+       }
+       swiper2.update();
+ }
 
 function existCityInList(cityName) {
     const cityListItems = document.querySelectorAll(".card-name");
@@ -285,7 +287,6 @@ function renderComponents() {
     lastUpdate.innerText = `Last update: ${getTimeWithoutSeconds(store.datetime)}`;
 
 }
-
 //Update Icons
 function getImage(conditions) {
 
@@ -450,6 +451,22 @@ function fToC(cels) {
     const fahr = (cels * 9 / 5) + 32;
     return fahr;
 }
+
+let swiper2 = new Swiper(".mySwiper2", {
+ 
+    slidesPerView:2.5,
+    direction: 'horizontal',
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    observer: true,
+    observeParents: true,
+    parallax:true,
+  });
+
+
+
 
 let swiper = new Swiper(".mySwiper", {
     initialSlide: 0,

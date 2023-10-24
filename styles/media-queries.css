@@ -8,6 +8,7 @@
         height:60px;
     }
     .logo{
+        
         font-size: 1.3rem;
     }
     .img-card{
@@ -116,8 +117,17 @@
         height:60px;
     }
     .logo{
-        font-size: 24px;
+        display:none;
+        font-size: 20px;
     }
+    .carousel-container {
+        width: 140px; 
+      
+      }
+      .carousel-slide {
+        width: 200px; 
+        margin-right: 10px;
+      }
     .scale div{
         font-size: 24px;
     }

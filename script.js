@@ -25,13 +25,6 @@ const currentDay = document.getElementById("dateInfo"),
     cityItems = document.querySelectorAll(".city-item"),
     searchBtn = document.querySelector(".buttonSearch");
    
-    
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-
-
-  
-
 
 
 let cityDefault = "Madrid";
@@ -191,17 +184,6 @@ if(cityExists){
     swiper2.update();
 
 }
- function existSlideInCarousel(cityName){
-    const slides = document.querySelectorAll(".swiper-slide slide1");
-     for (const slide of slides) {
-        const cardName = slide.querySelector(".card-name");
-         if (cardName.textContent === cityName) {
-          return slide;
-        }
-       }
-
-       return null;
- }
 function existCityInList(cityName) {
     const cityListItems = document.querySelectorAll(".card-name");
 
@@ -418,7 +400,8 @@ function getHour(timezone) {
     return time;
 }
 function getTimeWithoutSeconds(dateString) {
-    const timeWithoutSeconds = dateString.slice(0, -3);
+    let timeWithoutSeconds;
+    timeWithoutSeconds = dateString.slice(0, -3);
     return timeWithoutSeconds;
 
 }
@@ -457,8 +440,7 @@ function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 function cToF(farh) {
-    const cels = (farh - 32) * 5 / 9;
-    return cels;
+    return (farh - 32) * 5 / 9;
 }
 function fToC(cels) {
 

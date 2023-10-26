@@ -19,7 +19,6 @@ time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
     font: inherit;
     vertical-align: baseline;
 }
@@ -38,7 +37,7 @@ body {
     min-height: 100vh;
     height:100%;
     font-family: 'JetBrains Mono', monospace;
-    background-image: url('/img/background1.jpg');
+    background-image: url("img/background1.jpg");
     background-position: top left;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -46,7 +45,7 @@ body {
     max-width: 100%;
     overflow-x: hidden;
     position: relative;
-    zoom: -1;
+
 }
 ol, ul {
     list-style: none;
@@ -55,10 +54,7 @@ blockquote, q {
     quotes: none;
 }
 blockquote:before, blockquote:after,
-q:before, q:after {
-    content: '';
-    content: none;
-}
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -439,7 +435,7 @@ p.feels{
     padding: 15px;
     display:flex;
     flex-direction: column;
-    justify-content: baseline;
+    justify-content: center;
 } 
 .weeklyWeather__grid.swiper-wrapper{
      padding: 40px 0 40px 0;

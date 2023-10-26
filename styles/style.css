@@ -38,7 +38,7 @@ body {
     min-height: 100vh;
     height:100%;
     font-family: 'JetBrains Mono', monospace;
-    background-image: url("img/background1.jpg");
+    background-image: url(/img/background1.jpg);
     background-position: top left;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -46,7 +46,7 @@ body {
     max-width: 100%;
     overflow-x: hidden;
     position: relative;
-
+    zoom: -1;
 }
 ol, ul {
     list-style: none;
@@ -66,7 +66,6 @@ table {
 img{
     display:block;
 }
-
 :root{
     --accent-color: #FD4B7D;
     --dark-color: #000;
@@ -89,8 +88,7 @@ img{
 .header{
     width:100%;
     height:auto;
-    margin: 0 auto;
-    
+    margin: 0 auto; 
 }
 .menu{
     height:70px;
@@ -107,70 +105,96 @@ img{
     text-transform: uppercase;
     font-family: 'Ysabeau', sans-serif;
     margin-right: 20px;
-
 }
-
 /*Input Search Locations*/
-
-form>div {
+.search-container{
+    display:flex;
+    position:relative;
+    width:320px;
+}
+#search{
     display:flex;
     justify-content: center;
     align-items: center;
-    margin-left: 20px;
-    margin-left: 20px;
-    width:100%;
 }
 .searchBar{
-    border-radius: 20px;
-    padding-left: 10px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
     background: var(--background-color);
+    box-shadow: 0 1px 2px var(--shadows);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-left: 20px;
 }
 #inputSearch {
     width: 100%;
     height: 45px;
-    border:none;
+    border: none;
     font-size: 1rem;
     padding: 0 15px;
     cursor: text;
-    background-color:transparent;
     color:black;
     font-family: 'JetBrains Mono', monospace;
+    background: transparent;
 }
 #inputSearch::placeholder{
     color:rgba(128, 128, 128, 0.655);
-    font-size: 1rem;
+    font-size:16px;
     font-family: 'JetBrains Mono', monospace;
     font-weight: 100;
 }
 #inputSearch:focus{
     outline: none;
 }
+
 .fa-location-dot{
-    color: var(--shadows);
+    color: black;
     font-size: 15px;
 }
-/*Cities cards */
-.CONTAINER-SLIDER{
-    width:900px;
+.fa-magnifying-glass{
+    color: black;
+    font-size: 15px;
+}
+.buttonSearch{
+    width: 44px;
+    height: 45px;
+    border: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+    background: var(--background-color);
+    box-shadow: 0 1px 2px var(--shadows);
+    border-left: 1px solid white;
+    display:flex;
+    align-items: center;
+    justify-content: center;
 
+}
+.buttonSearch:hover{
+    background-color: grey;
 }
 
 
-
-
+/*Cities cards */
+.CONTAINER-SLIDER{
+    width:700px;
+}
 .mySwiper2{
     width:100%;
     height:100%;
+    max-width: 600px;
 }
 .s-w2{
-    margin-left:40px;
-    margin-right:40px ;
+    width:100%;
+    margin-left: 20px;
+    margin-right: 20px;
 }
-
 .slide1 {
-    max-width: 220px;
+    width:300px;
     border-right: solid #fff 1px;
-
 }
 .swiper-button-next, .swiper-button-prev {
     position: relative;
@@ -178,10 +202,7 @@ form>div {
     cursor: pointer;
     --swiper-navigation-size: 24px;
     --swiper-navigation-color: black;
-
 }
-
-
 .weather-city-item{
     display: flex;
     flex-direction:column;
@@ -189,9 +210,10 @@ form>div {
     align-items: start;
     cursor: pointer;
     height: 48px;
-    width:auto;
-    margin-left: 20px;
-
+    width: 200px;
+    padding-left: 25px;
+    padding-right: 25px;
+    
 }
 .card-name{
     margin-right: 5px;
@@ -215,14 +237,13 @@ form>div {
 .time-card{
     font-size: 12px;
 }
+
+/*C F buttons*/
 .scale{
     display: flex;
     align-items: center;
     justify-content: center;
-
-
 }
-/*C F buttons*/
 .scale div{
     font-size: 1.5rem;
 }
@@ -235,14 +256,9 @@ form>div {
 }
 .active{
     font-weight: 700;
-    color: #0c26be;
+    color: var(--button-color);
     text-shadow: 0 2px 3px var(--shadows);
 }
-
-
-
-
-
 
 /* CITY NAME WITH CURRENT DATE */
 .cityTitle_flex{
@@ -261,6 +277,7 @@ form>div {
     font-size: 1.3rem; 
 }
 /*INFORMATION ABOUT WEATHER */
+
 .weatherInfo__flex{
     display:flex;
     flex-direction: row;
@@ -269,7 +286,6 @@ form>div {
     margin-bottom: 40px;
     height:auto;
 }
-
 .weatherInfo__flex p{
     margin-bottom: 10px;
 }
@@ -298,9 +314,7 @@ p.feels{
 .temperatureInfo{
     flex: 0 0 600px;
     height:100%;
-   
 }
-
 #temperature{
     color: var(--accent-color);
     text-shadow: 0 2px 3px var(--shadows);
@@ -476,7 +490,6 @@ p.feels{
     align-items: center;
     height: 50px;
     flex: 0 0 auto;
-
 }
 .footer_title{
     color: var(--light-color);

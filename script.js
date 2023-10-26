@@ -22,7 +22,8 @@ const currentDay = document.getElementById("dateInfo"),
     listTime = document.querySelector(".card-temp"),
     timeCard = document.querySelector(".time-card"),
     cardBox = document.querySelector(".cardBox"),
-    cityItems = document.querySelectorAll(".city-item");
+    cityItems = document.querySelectorAll(".city-item"),
+    searchBtn = document.querySelector(".buttonSearch");
    
     
     const prevBtn = document.getElementById('prevBtn');
@@ -35,9 +36,10 @@ const currentDay = document.getElementById("dateInfo"),
 
 let cityDefault = "Madrid";
 let unitGroup = "metric";
-let lastCityList = [];
 let skipAddCityToList = false;
 let isCelsius = true;
+
+
 let store = {
     address: "",
     resolvedAddress: "",
@@ -131,24 +133,25 @@ const fetchData = async (city, unit) => {
         console.log(err);
     }
 };
-
-
 //Search form listener
-searchForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+ searchForm.addEventListener("submit", handleSearch);
+ searchBtn.addEventListener("click", handleSearch);
+
+function handleSearch(event) {
+     event.preventDefault();
     let location = inputSearch.value;
     location = capitalizeFirstLetter(location);
-    if (location !== "") {
+     if (location !== "") {
         fetchData(location, unitGroup);
         currentCity.innerText = location;
         inputSearch.value = "";
     }
-})
+}
 //add current location to list of cities
 function addCityToList() {
     const cityCarousel = document.querySelector(".swiper-wrapper");
     const slide = document.createElement("div");
-    const cityName = store.address;
+    let cityName = store.address;
     const cityExists = existCityInList(cityName);
   
 
@@ -169,6 +172,7 @@ if(cityExists){
           <span class="time-card">${getTodayWithTime(store.timezone)}</span>
         </div>
       `;
+
       slide.addEventListener("click", () => {
         const cityElement = slide.querySelector(".card-name");
         const cityText = cityElement.textContent;
@@ -186,9 +190,7 @@ if(cityExists){
     }
     swiper2.update();
 
-  }
-
-
+}
  function existSlideInCarousel(cityName){
     const slides = document.querySelectorAll(".swiper-slide slide1");
      for (const slide of slides) {
@@ -197,9 +199,9 @@ if(cityExists){
           return slide;
         }
        }
-       swiper2.update();
- }
 
+       return null;
+ }
 function existCityInList(cityName) {
     const cityListItems = document.querySelectorAll(".card-name");
 
@@ -210,6 +212,19 @@ function existCityInList(cityName) {
     }
     return false;
 }
+
+function existSlideInCarousel(cityName){
+    const slides = document.querySelectorAll(".swiper-slide.slide1");
+     for (const slide of slides) {
+        const cardName = slide.querySelector(".card-name");
+         if (cardName.textContent === cityName) {
+           return slide;
+       }
+      }
+
+        return null;
+  }
+
 //help to avoid adding cities to list every time with fetch data
 function avoidAddCityToList() {
     skipAddCityToList = true;
@@ -441,7 +456,6 @@ function getTodayWithTime(timezone) {
 function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
-
 function cToF(farh) {
     const cels = (farh - 32) * 5 / 9;
     return cels;
@@ -451,11 +465,8 @@ function fToC(cels) {
     const fahr = (cels * 9 / 5) + 32;
     return fahr;
 }
-
 let swiper2 = new Swiper(".mySwiper2", {
- 
-    slidesPerView:2.5,
-    direction: 'horizontal',
+    initialSlide: 0,
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
@@ -463,6 +474,31 @@ let swiper2 = new Swiper(".mySwiper2", {
     observer: true,
     observeParents: true,
     parallax:true,
+    breakpoints: {
+        640: {
+            slidesPerView: 1,
+           
+          },
+          769: {
+            slidesPerView:1,
+           
+          },
+          1024: {
+            slidesPerView: 1,
+  
+          },
+          1200: {
+            slidesPerView:2,
+          },
+          1800: {
+              slidesPerView: 3,
+          },
+          1921: {
+              slidesPerView: 5,
+          }
+      
+    }
+    
   });
 
 
@@ -488,7 +524,7 @@ let swiper = new Swiper(".mySwiper", {
          
         },
         769: {
-          slidesPerView:6,
+          slidesPerView:4,
          
         },
         1024: {

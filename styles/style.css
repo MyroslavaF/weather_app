@@ -37,7 +37,7 @@ body {
     min-height: 100vh;
     height:100%;
     font-family: 'JetBrains Mono', monospace;
-    background-image: url("img/background1.jpg");
+    background-image: url("/img/background1.jpg");
     background-position: top left;
     background-attachment: fixed;
     background-repeat: no-repeat;

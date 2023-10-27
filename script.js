@@ -154,6 +154,7 @@ if(cityExists){
 }else {
       slide.className = "swiper-slide slide1";
       slide.innerHTML = `
+<div class = "flex-box">
         <div class = "weather-city-item">
           <div class="card-info">
             <p class="card-name">${capitalizeFirstLetter(store.address)}</p>
@@ -163,10 +164,18 @@ if(cityExists){
             <span class="card-temp">${store.temp}°</span>
           </div>
           <span class="time-card">${getTodayWithTime(store.timezone)}</span>
-        </div>
-      `;
+         </div>
+         <div class="icon-delete">
+             <i class="fa-solid fa-ellipsis-vertical"></i>
+             <div id="myDropdown" class="dropdown-content hide">
+                        <a href="#home" class="deleteOption"><i class="fa-solid fa-trash"></i>Delete</a>
+             </div>
+         </div>
+        
+    </div>
+`;
 
-      slide.addEventListener("click", () => {
+    slide.addEventListener("click", () => {
         const cityElement = slide.querySelector(".card-name");
         const cityText = cityElement.textContent;
         cityCarousel.prepend(slide, cityCarousel.firstChild);
@@ -184,6 +193,7 @@ if(cityExists){
     swiper2.update();
 
 }
+
 function existCityInList(cityName) {
     const cityListItems = document.querySelectorAll(".card-name");
 
@@ -457,8 +467,11 @@ let swiper2 = new Swiper(".mySwiper2", {
     observeParents: true,
     parallax:true,
     breakpoints: {
+        480:{
+            slidesPerView: 1.5,
+        },
         640: {
-            slidesPerView: 1,
+            slidesPerView: 2,
            
           },
           769: {
@@ -470,13 +483,13 @@ let swiper2 = new Swiper(".mySwiper2", {
   
           },
           1200: {
-            slidesPerView:2,
+            slidesPerView:3,
           },
           1800: {
               slidesPerView: 3,
           },
           1921: {
-              slidesPerView: 5,
+              slidesPerView: 3,
           }
       
     }
@@ -488,7 +501,6 @@ let swiper2 = new Swiper(".mySwiper2", {
 
 let swiper = new Swiper(".mySwiper", {
     initialSlide: 0,
-    slidesPerView: 7,
     spaceBetween: 10,
     freeMode: true,
     pagination: {
@@ -501,8 +513,11 @@ let swiper = new Swiper(".mySwiper", {
         enabled: true,
     },
     breakpoints: {
+        480:{
+            slidesPerView: 2.5,
+        },
         640: {
-          slidesPerView: 2,
+          slidesPerView: 3,
          
         },
         769: {
@@ -510,17 +525,16 @@ let swiper = new Swiper(".mySwiper", {
          
         },
         1024: {
-          slidesPerView: 6,
+          slidesPerView: 5.5,
 
         },
         1200: {
-            slidesPerView: 7,
-            spaceBetween: 10,
+            slidesPerView: 5.5,
         },
-        1800: {
-            slidesPerView: 7,
+        1400: {
+            slidesPerView: 6.5,
         },
-        1921: {
+        1920: {
             slidesPerView: 7,
         }
       },

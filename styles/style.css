@@ -37,7 +37,7 @@ body {
     min-height: 100vh;
     height:100%;
     font-family: 'JetBrains Mono', monospace;
-    background-image: url("./img/background1.jpg");
+    background-image: url("../img/background1.jpg");
     background-position: top left;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -90,7 +90,8 @@ img{
     height:70px;
     display:flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    flex-grow: 2;
     align-items: center;
     padding: 0 100px 0 100px;
     margin-bottom: 70px;
@@ -106,7 +107,8 @@ img{
 .search-container{
     display:flex;
     position:relative;
-    width:320px;
+    width:400px;
+
 }
 #search{
     display:flex;
@@ -181,7 +183,7 @@ img{
 .mySwiper2{
     width:100%;
     height:100%;
-    max-width: 600px;
+    max-width: 900px;
 }
 .s-w2{
     width:100%;
@@ -189,9 +191,29 @@ img{
     margin-right: 20px;
 }
 .slide1 {
-    width:300px;
+    width: 100%;
     border-right: solid #fff 1px;
 }
+.flex-box{
+    display:flex;
+    align-items: center;
+    justify-content: left;
+}
+.icon-delete{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+}
+.fa-ellipsis-vertical{
+    color: grey;
+    cursor:pointer;
+}
+.icon-delete:hover{
+    background-color: var(--shadows);
+}
+
 .swiper-button-next, .swiper-button-prev {
     position: relative;
     z-index: 10;
@@ -206,9 +228,9 @@ img{
     align-items: start;
     cursor: pointer;
     height: 48px;
-    width: 200px;
-    padding-left: 25px;
-    padding-right: 25px;
+    width: 230px;
+    padding-left: 20px;
+
     
 }
 .card-name{
@@ -233,6 +255,25 @@ img{
 .time-card{
     font-size: 12px;
 }
+
+
+.dropdown-content{
+
+    position: relative;
+    margin-top: 60px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.show {
+    display: block;
+}
+.hide{
+    display: none;
+}
+
 
 /*C F buttons*/
 .scale{
@@ -277,8 +318,9 @@ img{
 .weatherInfo__flex{
     display:flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     align-items:end;
+
     margin-bottom: 40px;
     height:auto;
 }
@@ -357,12 +399,26 @@ p.feels{
     background: var(--background-color);
     backdrop-filter: blur(4px);
     margin-left: 20px;
-    padding: 33px;
+    padding: 20px;
 }
 .moreDescriptionList{
     list-style: none;
-    margin-right: 40px;
-    font-size: 1rem;
+    margin-right: 30px;
+    font-size: 16px;
+}
+.wind,.humidity,.precipType,.uvIndex,.visibility,.pressure {
+    font-weight: bold;
+    padding-left: 5px;
+}
+
+li{
+    display: flex;
+    align-items: center;
+}
+li>img{
+    width:20px;
+    height:20px;
+    margin-right: 10px;
 }
 .moreDescriptionList li{
     margin-bottom: 10px;
@@ -435,7 +491,7 @@ p.feels{
     padding: 15px;
     display:flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
 } 
 .weeklyWeather__grid.swiper-wrapper{
      padding: 40px 0 40px 0;

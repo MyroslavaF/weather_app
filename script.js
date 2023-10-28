@@ -140,10 +140,11 @@ function handleSearch(event) {
         inputSearch.value = "";
     }
 }
+
 //add current location to list of cities
 function addCityToList() {
     const cityCarousel = document.querySelector(".swiper-wrapper");
-    const slide = document.createElement("div");
+    let slide = document.createElement("div");
     let cityName = store.address;
     const cityExists = existCityInList(cityName);
   
@@ -154,26 +155,19 @@ if(cityExists){
 }else {
       slide.className = "swiper-slide slide1";
       slide.innerHTML = `
-<div class = "flex-box">
-        <div class = "weather-city-item">
-          <div class="card-info">
-            <p class="card-name">${capitalizeFirstLetter(store.address)}</p>
-            <span>
-              <img src="${getImage(store.icon)}" alt="" class="img-card">
-            </span>
-            <span class="card-temp">${store.temp}°</span>
-          </div>
-          <span class="time-card">${getTodayWithTime(store.timezone)}</span>
-         </div>
-         <div class="icon-delete">
-             <i class="fa-solid fa-ellipsis-vertical"></i>
-             <div id="myDropdown" class="dropdown-content hide">
-                        <a href="#home" class="deleteOption"><i class="fa-solid fa-trash"></i>Delete</a>
-             </div>
-         </div>
-        
-    </div>
-`;
+                <div class = "flex-box">
+                    <div class = "weather-city-item">
+                    <div class="card-info">
+                        <p class="card-name">${capitalizeFirstLetter(store.address)}</p>
+                        <span>
+                        <img src="${getImage(store.icon)}" alt="" class="img-card">
+                        </span>
+                        <span class="card-temp">${store.temp}°</span>
+                    </div>
+                    <span class="time-card">${getTodayWithTime(store.timezone)}</span>
+                    </div>        
+                </div>
+            `;
 
     slide.addEventListener("click", () => {
         const cityElement = slide.querySelector(".card-name");
@@ -184,7 +178,7 @@ if(cityExists){
 
       cityCarousel.prepend(slide,cityCarousel.firstChild);
   
-      while (cityCarousel.children.length > 5) {
+      while (cityCarousel.children.length > 3) {
         cityCarousel.removeChild(cityCarousel.lastChild);
       }
 
@@ -193,6 +187,7 @@ if(cityExists){
     swiper2.update();
 
 }
+
 
 function existCityInList(cityName) {
     const cityListItems = document.querySelectorAll(".card-name");

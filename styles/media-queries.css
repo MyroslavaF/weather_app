@@ -1,66 +1,105 @@
+@media (max-width: 480px){
 
-@media (min-width: 1201px) and (max-width: 1919px) {
+    .mySwiper2{
+        display: none;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 1024px) {
     .container{
-        width:90%;
+        width:80%;
     }
     .menu{
-        height:60px;
+        height:auto;
+        padding: 10 20px 10 20px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    
     }
     .logo{
-        font-size: 1.2rem;
+        font-size: 24px;
+        flex: 0 0 calc(100% - 10px);
+        margin-bottom: 10px;
+        margin-top: 10px;
     }
-
-    /*search bar*/
-
+/*search bar*/
+    .search-container{
+        width:300px;
+        margin-bottom: 10px;
+        flex: 0 0 calc(33.33% - 10px);
+        
+    }
+    
     .buttonSearch{
         height: auto;
     }
     #inputSearch {
-        height: 40px;
-        font-size: 12px;
+        width: auto;
+        height: 45px;
+        font-size: 16px;
         padding: 0 10px;
     }
     #inputSearch::placeholder{
-        font-size: 12px;
+        font-size: 16px;
     }
 
-    /*slider*/
+/*slider*/
 
     .CONTAINER-SLIDER{
-        width:100%;
+        width: 400px;
         margin-right: 30px;
+        margin-bottom: 10px;
+    
+    }
+    .mySwiper2{
+        width:400px;
+        max-width: 300px;
+    }
+    .s-w2{
+        width:400px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
     .slide1 {
-        max-width: 190px;
+        max-width:400px;
     }
     .swiper-button-next, .swiper-button-prev {
         --swiper-navigation-size: 18px;
     }
     .weather-city-item{
         height: 45px;
-        width:200px;;
+        width:400px;
         padding-left: 10px;
         padding-right: 10px;
     }
     .card-name{
-        font-size: 14px;
+        font-size: 16px;
     }
+    .card-temp{
+    font-size: 16px;
+    
+}
+.time-card{
+    font-size: 14px;
+}
     .img-card{
-        width:25px;
-        height:25px;
+        width:30px;
+        height:30px;
     }
     .scale{
         align-items: start;
+        width: 30px;
     }
     .scale div{
-        font-size: 1.3rem;
+        font-size: 24px;
     }
     .celsius, .fahrenheit {
-        font-size: 1.3rem;
+        font-size: 24px;
     }
 
     #cityTitle{
-        font-size:1.5rem;
+        font-size:32px;
         margin-bottom: 40px;
     }
     .weatherInfo{
@@ -68,14 +107,16 @@
     }
     .weatherInfo__flex{
         margin-bottom: 30px;
+        flex-wrap: wrap;
     }
     .p.feels{
-        font-size: 1.1rem;
+        font-size: 24px;
     }
     .sunInfo{
         margin-right: 0;
         width:80%;
         flex: 0 0 160px;
+        margin-bottom: 20px;
     }
     .weatherImg{
         width:100px;
@@ -97,8 +138,11 @@
         font-size: 1rem;
     }
     .moreDescription {
-        flex: 0 0 auto;
-
+        flex: 0 0 80%;
+        padding: 25px;
+        margin-left: 0;
+        margin-top: 20px;
+       
     }
     .moreDescriptionList{
         margin-right: 30px;
@@ -106,9 +150,9 @@
     }
     .card{
         width: 100%;
-        max-width:160px;
-        height:230px;
-        padding: 15px 15px 15px 15px;
+        max-width:125px;
+        height:250px;
+        padding: 15px 15px 15px 15px;    
     }
     .weeklyWeather__grid.swiper-wrapper{
         padding: 30px 0 30px 0;
@@ -117,9 +161,12 @@
         width:50px;
         height: 50px;
     }
+    .conditions{
+        margin-top: 10px;
+        text-align: left;
+        font-size: 12px;
+    }
 }
-
-
 
 /* Pantallas entre 1025px y 1280px */
 @media (min-width: 1025px) and (max-width: 1200px) {
@@ -243,169 +290,20 @@
         height: 50px;
     }
 }
-/* Pantallas entre 884px y 1024px */
-@media (min-width: 884px) and (max-width: 1024px) {
+
+@media (min-width: 1201px) and (max-width: 1919px) {
     .container{
         width:90%;
     }
     .menu{
         height:60px;
-        padding: 0 20px 0 20px;
     }
     .logo{
-        font-size: 1rem;
-    }
-/*search bar*/
-    .search-container{
-        width:100%;
-    }
-    .buttonSearch{
-        height: auto;
-    }
-    #inputSearch {
-        height: 40px;
-        font-size: 12px;
-        padding: 0 10px;
-    }
-    #inputSearch::placeholder{
-        font-size: 12px;
-    }
-
-/*slider*/
-
-    .CONTAINER-SLIDER{
-        width:400px;
-        margin-right: 30px;
-    }
-    .slide1 {
-        max-width: 200px;
-    }
-    .swiper-button-next, .swiper-button-prev {
-        --swiper-navigation-size: 18px;
-    }
-    .weather-city-item{
-        height: 45px;
-        width:auto;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-    .card-name{
-        font-size: 14px;
-    }
-    .img-card{
-        width:25px;
-        height:25px;
-    }
-    .scale{
-        align-items: start;
-    }
-    .scale div{
-        font-size: 1.3rem;
-    }
-    .celsius, .fahrenheit {
-        font-size: 1.3rem;
-    }
-
-    #cityTitle{
-        font-size:1.5rem;
-        margin-bottom: 40px;
-    }
-    .weatherInfo{
-        width: 100%;
-    }
-    .weatherInfo__flex{
-        margin-bottom: 30px;
-        flex-wrap: wrap;
-    }
-    .p.feels{
-        font-size: 1.1rem;
-    }
-    .sunInfo{
-        margin-right: 0;
-        width:80%;
-        flex: 0 0 160px;
-    }
-    .weatherImg{
-        width:100px;
-        height: 100px;
-    }
-    .temperatureInfo{
-        flex: 0 0 400px;
-        height:100%;
-    }
-    #temperature{
-        font-size: 4rem;
-        margin-bottom: 15px;
-        padding: 10px;
-    }
-    .p.feels{
-        font-size: 16px;
-    }
-    .title_moreDescription{
-        font-size: 1rem;
-    }
-    .moreDescription {
-        flex: 0 0 80%;
-        padding: 25px;
-        margin-left: 0;
-        margin-top: 20px;
-       
-    }
-    .moreDescriptionList{
-        margin-right: 30px;
-        font-size: 0.9rem;
-    }
-    .card{
-        width: 100%;
-        max-width:125px;
-        height:250px;
-        padding: 15px 15px 15px 15px;    
-    }
-    .weeklyWeather__grid.swiper-wrapper{
-        padding: 30px 0 30px 0;
-    }
-    .iconWeeklyWeather{
-        width:50px;
-        height: 50px;
-    }
-    .conditions{
-        margin-top: 10px;
-        text-align: left;
-        font-size: 12px;
-    }
-
-}
-
-/* Pantallas entre 481px y 768px */
-@media (min-width: 481px) and (max-width: 883px) {
-    .container{
-        width:90%;
-    }
-    .menu{
-        height:auto;
-        padding: 0 10px 0 10px;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: end;
-
-    }
-
-    .logo{
-        font-size: 16px;
-        margin-top: 10px;
-        margin-right: 0;
-        display:none;
-
+        font-size: 1.2rem;
     }
 
     /*search bar*/
-    .search-container{
-        width:100%;
-        justify-content: center;
-        padding-top: 10px;
-        padding-bottom: 10px;
 
-    }
     .buttonSearch{
         height: auto;
     }
@@ -421,7 +319,7 @@
     /*slider*/
 
     .CONTAINER-SLIDER{
-        width:350px;
+        width:100%;
         margin-right: 30px;
     }
     .slide1 {
@@ -432,7 +330,7 @@
     }
     .weather-city-item{
         height: 45px;
-        width:auto;
+        width:200px;;
         padding-left: 10px;
         padding-right: 10px;
     }
@@ -447,10 +345,10 @@
         align-items: start;
     }
     .scale div{
-        font-size: 16px;
+        font-size: 1.3rem;
     }
     .celsius, .fahrenheit {
-        font-size: 16px;
+        font-size: 1.3rem;
     }
 
     #cityTitle{
@@ -462,7 +360,6 @@
     }
     .weatherInfo__flex{
         margin-bottom: 30px;
-        flex-wrap: wrap;
     }
     .p.feels{
         font-size: 1.1rem;
@@ -492,10 +389,7 @@
         font-size: 1rem;
     }
     .moreDescription {
-        flex: 0 0 80%;
-        padding: 25px;
-        margin-left: 0;
-        margin-top: 20px;
+        flex: 0 0 auto;
 
     }
     .moreDescriptionList{
@@ -504,8 +398,8 @@
     }
     .card{
         width: 100%;
-        max-width:125px;
-        height:250px;
+        max-width:160px;
+        height:230px;
         padding: 15px 15px 15px 15px;
     }
     .weeklyWeather__grid.swiper-wrapper{
@@ -515,16 +409,5 @@
         width:50px;
         height: 50px;
     }
-    .conditions{
-        margin-top: 10px;
-        text-align: left;
-        font-size: 12px;
-    }
-
-
 }
 
-/* Pantallas más pequeñas que 481px */
-@media (max-width: 480px) {
-
-}

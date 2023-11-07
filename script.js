@@ -110,38 +110,115 @@ const fetchData = async (city, unit) => {
             icon,
             days: sevenDays,
         };
-        console.log(store);
+    console.log(store);
+      
+    
+    saveInLocalStorage();
+    
+    console.log(storedCities);
 
         renderComponents();
         weekForecast();
 
         if (!skipAddCityToList) {
-            addCityToList();
-        }
+             addCityToList();
+         }
         skipAddCityToList = false;
         swiper.update();
-  
+   
 
     } catch (err) {
-        console.log(err);
+        
+
+        alert("The city was not found. Try searching for another one");
+
+
     }
+    
 };
+
+let storedCities = JSON.parse(localStorage.getItem("weatherCities")) || [];
+
+
+function saveInLocalStorage() {
+    const cityName = store.address;
+    
+    const existingCityData = searchStorageCity(cityName);
+
+    if (existingCityData) {
+       
+        const updatedStoredCities = storedCities.map(cityData => {
+            if (cityData.address === cityName) {
+                return store; 
+            }
+            return cityData;
+        });
+
+        localStorage.setItem("weatherCities", JSON.stringify(updatedStoredCities));
+    } else {
+      
+        storedCities.push(store);
+        localStorage.setItem("weatherCities", JSON.stringify(storedCities));
+    }
+}
+
+
+function searchStorageCity(cityName) {
+    for (let i = 0; i < storedCities.length; i++) {
+        const cityData = storedCities[i];
+        if (cityData.address === cityName) {
+            return cityData;
+        }
+    }
+    return null;
+}
+
+function clearLocalStorage() {
+    localStorage.clear();
+
+}
+
+
+function updateData() {
+    clearLocalStorage(); 
+    fetchData(store.address, unitGroup);
+}
+
+
+const updateInterval = 30 * 60 * 1000; // 30 minutos
+setInterval(updateData,  updateInterval);
+
+
 //Search form listener
  searchForm.addEventListener("submit", handleSearch);
  searchBtn.addEventListener("click", handleSearch);
 
-function handleSearch(event) {
-     event.preventDefault();
-    let location = inputSearch.value;
-    location = capitalizeFirstLetter(location);
-     if (location !== "") {
-        fetchData(location, unitGroup);
-        currentCity.innerText = location;
+
+async function handleSearch(event) {
+        event.preventDefault();
+        let location = inputSearch.value;
+        location = capitalizeFirstLetter(location);
+    
+        const cityData = searchStorageCity(location);
+   
+        
+        if (cityData) {
+            // City data found in local storage, so display it
+            store = { ...store, ...cityData };
+            renderComponents();
+            weekForecast();
+            addCityToList();
+        } else {
+            skipAddCityToList = true; // Evitar que se agregue automáticamente
+            fetchData(location, unitGroup);
+            skipAddCityToList = false;
+        }
+
         inputSearch.value = "";
-    }
 }
 
 //add current location to list of cities
+
 function addCityToList() {
     const cityCarousel = document.querySelector(".swiper-wrapper");
     let slide = document.createElement("div");
@@ -169,11 +246,20 @@ if(cityExists){
                 </div>
             `;
 
+            swiper2.update();
+
     slide.addEventListener("click", () => {
         const cityElement = slide.querySelector(".card-name");
         const cityText = cityElement.textContent;
-        cityCarousel.prepend(slide, cityCarousel.firstChild);
-        fetchData(cityText, unitGroup);
+    
+        const cityData = searchStorageCity(cityText); // Busca los datos de la ciudad en localStorage
+    
+        if (cityData) {
+            // Los datos de la ciudad se encontraron en localStorage, úsalos para actualizar la interfaz
+            store = { ...store, ...cityData };
+            renderComponents();
+            weekForecast(); 
+        }
     });
 
       cityCarousel.prepend(slide,cityCarousel.firstChild);
@@ -184,10 +270,9 @@ if(cityExists){
 
 
     }
-    swiper2.update();
+    
 
 }
-
 
 function existCityInList(cityName) {
     const cityListItems = document.querySelectorAll(".card-name");
@@ -202,15 +287,15 @@ function existCityInList(cityName) {
 
 function existSlideInCarousel(cityName){
     const slides = document.querySelectorAll(".swiper-slide.slide1");
-     for (const slide of slides) {
-        const cardName = slide.querySelector(".card-name");
-         if (cardName.textContent === cityName) {
-           return slide;
-       }
+    for (const slide of slides) {
+       const cardName = slide.querySelector(".card-name");
+        if (cardName.textContent === cityName) {
+          return slide;
       }
+     }
 
-        return null;
-  }
+       return null;
+}
 
 //help to avoid adding cities to list every time with fetch data
 function avoidAddCityToList() {
@@ -356,19 +441,24 @@ function weekForecast() {
             `;
         weatherCards.appendChild(card);
     }
+    swiper.update();
 }
 //Manipulations with date and time
 
 setInterval(updateClock, 6000);
-setInterval(updateClock2, 6000);
+setInterval(updateClock2, 1000);
 
 function updateClock(){
     const currentDate= getFullDate(store.timezone);
     currentDay.innerText = currentDate;
 }
 function updateClock2(){
-    const time = getTodayWithTime(store.timezone);
-    timeCard = time;
+    const timeCard = document.querySelector(".time-card");
+    if (timeCard) {
+        const currentTime = getTodayWithTime(store.timezone);
+        timeCard.textContent = currentTime;
+    }
+    
 }
 
 function getDayOfWeek(dateString) {
@@ -441,6 +531,7 @@ function getTodayWithTime(timezone) {
     return parts.join(', ');
 
 }
+
 function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
@@ -490,9 +581,6 @@ let swiper2 = new Swiper(".mySwiper2", {
     }
     
   });
-
-
-
 
 let swiper = new Swiper(".mySwiper", {
     initialSlide: 0,

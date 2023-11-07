@@ -130,7 +130,7 @@ const fetchData = async (city, unit) => {
     } catch (err) {
         
 
-        alert("The city was not found. Try searching for another one");
+       console.log(err);
 
 
     }
@@ -246,7 +246,7 @@ if(cityExists){
                 </div>
             `;
 
-            swiper2.update();
+            
 
     slide.addEventListener("click", () => {
         const cityElement = slide.querySelector(".card-name");
@@ -270,7 +270,7 @@ if(cityExists){
 
 
     }
-    
+    swiper2.update();
 
 }
 
@@ -453,12 +453,13 @@ function updateClock(){
     currentDay.innerText = currentDate;
 }
 function updateClock2(){
-    const timeCard = document.querySelector(".time-card");
-    if (timeCard) {
+    const timeCards = document.querySelectorAll(".time-card");
+    if (timeCards.length > 0) {
         const currentTime = getTodayWithTime(store.timezone);
-        timeCard.textContent = currentTime;
+        timeCards.forEach((timeCard) => {
+            timeCard.textContent = currentTime;
+        });
     }
-    
 }
 
 function getDayOfWeek(dateString) {
